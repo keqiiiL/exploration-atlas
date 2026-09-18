@@ -9,6 +9,7 @@ import { MagicMicroEffect } from "./MagicMicroEffect";
 import { MapCanvas } from "./MapCanvas";
 import { MagicAtmosphere } from "./MagicAtmosphere";
 import { IntroFilm } from "./IntroFilm";
+import { ShopPanel } from "./ShopPanel";
 import { fogMessages, zones as formalZones } from "@/src/config/story";
 import { experienceConfig } from "@/src/config/experience";
 import { formatDistance, isInsideCheckpoint, matchPositionToRoute } from "@/src/lib/geo";
@@ -17,16 +18,7 @@ import { warmPhotoMatcher } from "@/src/lib/photoMatch";
 import { useGeolocation } from "@/src/hooks/useGeolocation";
 import { useDeviceHeading } from "@/src/hooks/useDeviceHeading";
 import { useMagicalSoundscape } from "@/src/hooks/useMagicalSoundscape";
-import type { CapturedPhoto, ExplorationZone, MatchResult, PositionSample, StoryProgress } from "@/src/types";
-
-const giftNames = {
-  scent: "好闻的",
-  motion: "好用的",
-  sound: "好听的",
-  sparkle: "好看的",
-  taste: "好吃的",
-  love: "好爱的",
-};
+import type { CapturedPhoto, ExplorationZone, MatchResult, PositionSample, ShopItem, StoryProgress } from "@/src/types";
 
 type ExplorationAppProps = {
   storageNamespace?: string;
@@ -59,6 +51,12 @@ function createInitialProgress(storyZones: ExplorationZone[]): StoryProgress {
     phase: "intro",
     zoneStarted: false,
     arrivedCheckpointIds: [],
+    economy: {
+      coins: experienceConfig.economy.initialCoins,
+      awardedCheckpointIds: [],
+      skippedCheckpointIds: [],
+      purchases: [],
+    },
   };
 }
 
@@ -77,6 +75,7 @@ export function ExplorationApp({
   const [progress, setProgress] = useState<StoryProgress>(() => structuredClone(storyInitialProgress));
   const [hydrated, setHydrated] = useState(false);
   const [cameraOpen, setCameraOpen] = useState(false);
+  const [shopOpen, setShopOpen] = useState(false);
   const [introOpening, setIntroOpening] = useState(false);
   const [introFilmVisible, setIntroFilmVisible] = useState(() => {
     const params = new URLSearchParams(window.location.search);
@@ -147,6 +146,10 @@ export function ExplorationApp({
     [position, zone, checkpoint.location],
   );
   const arrived = progress.arrivedCheckpointIds.includes(checkpoint.id);
+  const checkpointCompleted = progress.completedCheckpointIds.includes(checkpoint.id);
+  const cluePurchased = progress.economy.purchases.some(
+    (purchase) => purchase.kind === "clue" && purchase.targetCheckpointId === checkpoint.id,
+  );
   const locationReliable = Boolean(position && position.accuracy <= zone.maxLocationAccuracyM);
   const checkpointSequence = storyZones.flatMap((item) => item.checkpoints);
   const coordinateNumber = Math.max(
@@ -265,7 +268,7 @@ export function ExplorationApp({
   }, [arrived, checkpoint.id, checkpoint.label, hydrated, triggerCelebration]);
 
   const completeCheckpoint = useCallback(
-    async (dataUrl?: string, result?: MatchResult) => {
+    async (dataUrl?: string, result?: MatchResult, completionMode: "normal" | "skip" = "normal") => {
       let photoId: string | undefined;
       if (dataUrl) {
         photoId = `${checkpoint.id}-${Date.now()}`;
@@ -280,11 +283,25 @@ export function ExplorationApp({
         setPhotos((current) => [...current.filter((item) => item.id !== photo.id), photo]);
       }
       setLastResult(result ?? null);
-      setProgress((current) => ({
-        ...current,
-        completedCheckpointIds: [...new Set([...current.completedCheckpointIds, checkpoint.id])],
-        capturedPhotoIds: photoId ? [...current.capturedPhotoIds, photoId] : current.capturedPhotoIds,
-      }));
+      setProgress((current) => {
+        const alreadyRewarded = current.economy.awardedCheckpointIds.includes(checkpoint.id);
+        const awardsCoins = completionMode === "normal" && !alreadyRewarded;
+        return {
+          ...current,
+          completedCheckpointIds: [...new Set([...current.completedCheckpointIds, checkpoint.id])],
+          capturedPhotoIds: photoId ? [...current.capturedPhotoIds, photoId] : current.capturedPhotoIds,
+          economy: {
+            ...current.economy,
+            coins: current.economy.coins + (awardsCoins ? checkpoint.coinReward : 0),
+            awardedCheckpointIds: awardsCoins
+              ? [...current.economy.awardedCheckpointIds, checkpoint.id]
+              : current.economy.awardedCheckpointIds,
+            skippedCheckpointIds: completionMode === "skip"
+              ? [...new Set([...current.economy.skippedCheckpointIds, checkpoint.id])]
+              : current.economy.skippedCheckpointIds,
+          },
+        };
+      });
       setCameraOpen(false);
       if (dataUrl && result) {
         triggerCelebration("photo", checkpoint.label);
@@ -295,8 +312,49 @@ export function ExplorationApp({
         setUnlockOpen(true);
       }
     },
-    [checkpoint.id, checkpoint.label, storageNamespace, triggerCelebration],
+    [checkpoint.coinReward, checkpoint.id, checkpoint.label, storageNamespace, triggerCelebration],
   );
+
+  function buyShopItem(item: ShopItem) {
+    if (progress.economy.coins < item.price) return;
+    if (item.kind === "clue" && (cluePurchased || checkpointCompleted)) return;
+    if (item.kind === "skip-task" && (!arrived || checkpointCompleted)) return;
+    const now = Date.now();
+    const purchase = {
+      id: `${item.id}-${now}-${Math.random().toString(36).slice(2, 8)}`,
+      itemId: item.id,
+      kind: item.kind,
+      targetCheckpointId: item.kind === "clue" || item.kind === "skip-task" ? checkpoint.id : undefined,
+      purchasedAt: now,
+      consumedAt: item.kind === "clue" || item.kind === "skip-task" ? now : undefined,
+    };
+    setProgress((current) => ({
+      ...current,
+      economy: {
+        ...current.economy,
+        coins: current.economy.coins - item.price,
+        purchases: [...current.economy.purchases, purchase],
+      },
+    }));
+    if (item.kind === "skip-task") {
+      setShopOpen(false);
+      void completeCheckpoint(undefined, undefined, "skip");
+    }
+  }
+
+  function redeemVoucher(purchaseId: string) {
+    setProgress((current) => ({
+      ...current,
+      economy: {
+        ...current.economy,
+        purchases: current.economy.purchases.map((purchase) =>
+          purchase.id === purchaseId && !purchase.consumedAt
+            ? { ...purchase, consumedAt: Date.now() }
+            : purchase,
+        ),
+      },
+    }));
+  }
 
   function recordAttempt(result: MatchResult) {
     setLastResult(result);
@@ -417,6 +475,7 @@ export function ExplorationApp({
     setCelebration(null);
     setUnlockOpen(false);
     setCameraOpen(false);
+    setShopOpen(false);
     setIntroOpening(false);
     setMockPosition(null);
     setGmOpen(false);
@@ -634,7 +693,7 @@ export function ExplorationApp({
             exit={{ opacity: .92 }}
             transition={{ duration: .24, ease: "easeOut" }}
           >
-            <header className="topbar"><div><i className="topbar-sigil" aria-hidden="true"/><span>THE EXPLORATION ATLAS · {experienceConfig.chapter.transition}</span><b>{displayedZoneTitle}</b></div><div className="chapter-dots">{storyZones.map((item) => <i key={item.id} className={item.order <= zone.order ? "active" : ""}/>)}</div><div className="status-chip">{arrived ? "坐标已揭晓" : location.status === "active" ? "墨点已定位" : location.status === "imprecise" ? "定位在云雾中" : progress.zoneStarted ? "正在寻找位置" : "等待开始"}</div></header>
+            <header className="topbar"><div><i className="topbar-sigil" aria-hidden="true"/><span>THE EXPLORATION ATLAS · {experienceConfig.chapter.transition}</span><b>{displayedZoneTitle}</b></div><div className="chapter-dots">{storyZones.map((item) => <i key={item.id} className={item.order <= zone.order ? "active" : ""}/>)}</div><div className="atlas-actions"><button className="coin-balance" type="button" onClick={() => setShopOpen(true)} aria-label={`打开商店，金币余额 ${progress.economy.coins}`}>✦ {progress.economy.coins} · 商店</button><div className="status-chip">{arrived ? "坐标已揭晓" : location.status === "active" ? "墨点已定位" : location.status === "imprecise" ? "定位在云雾中" : progress.zoneStarted ? "正在寻找位置" : "等待开始"}</div></div></header>
             <div className="map-layout">
               <MapCanvas zone={zone} checkpoint={checkpoint} position={position} locationReliable={!progress.zoneStarted || locationReliable} arrived={arrived} completedIds={progress.completedCheckpointIds} heading={displayedHeading} showHeading={headingVisible} onMapFocus={() => setQuestExpanded(false)}/>
               <aside className={`quest-card floating-quest-card ${questExpanded ? "is-expanded" : "is-collapsed"} ${arrived ? "is-arrived" : ""}`}>
@@ -647,9 +706,10 @@ export function ExplorationApp({
                 >{questExpanded ? "收起" : "查看线索"}</button>
                 <div className="quest-medallion" aria-hidden="true"><span className="quest-number">{String(coordinateNumber).padStart(2, "0")}</span></div>
                 <span className="eyebrow">{arrived ? "COORDINATE REVEALED" : experienceConfig.chapter.lastPage}</span>
-                <h2>{arrived ? checkpoint.label : concealedTitle}<small>{arrived ? giftNames[checkpoint.giftType] : concealedLabel}</small></h2>
+                <h2>{arrived ? checkpoint.label : concealedTitle}<small>{arrived ? checkpoint.revealLabel : concealedLabel}</small></h2>
                 {questExpanded && checkpoint.storyBeat && <p className="quest-story-beat">{checkpoint.storyBeat}</p>}
                 {questExpanded && <p className="quest-clue">{checkpoint.clue}</p>}
+                {questExpanded && cluePurchased && <p className="quest-paid-clue"><b>已解锁线索</b>{checkpoint.paidClue}</p>}
                 <div className="distance-row"><span>{arrived ? "已经抵达" : position && !locationReliable ? "墨点已冻结" : formatDistance(routeMatch.distanceToCheckpointM)}</span><small>{position ? `精度 ±${Math.round(position.accuracy)}m` : "Wi‑Fi iPad 粗定位"}</small></div>
                 {questExpanded && location.error && !arrived && <div className="location-warning">{location.error}<button onClick={location.retry}>重试</button></div>}
                 {checkpoint.giftType === "love" ? (
@@ -671,6 +731,7 @@ export function ExplorationApp({
             <div className="finale-generated-rune" aria-hidden="true" />
             <div className="finale-content">
               <div className="final-heart" aria-hidden="true"><i/><span>♡</span></div><span>{experienceConfig.finale.transition}</span><h1>Exploration<br/>Completed</h1><blockquote>{experienceConfig.finale.lines.map((line) => <Fragment key={line}>{line}<br/></Fragment>)}<b>{experienceConfig.finale.signature}</b></blockquote>
+              <section className="final-destination"><span>DINNER REVEALED</span><h2>{experienceConfig.finale.destination.name}</h2><p>{experienceConfig.finale.destination.address}</p><small>{experienceConfig.finale.destination.note}</small></section>
               <div className="gallery-strip">{photos.length ? photos.map((photo) => <button key={photo.id} onClick={() => sharePhoto(photo)}><img src={photo.dataUrl} alt="探索复刻照片"/><span>{photo.score} 分 · 保存</span></button>) : <p>完成照片关卡后，探索相册会出现在这里。</p>}</div>
               {isRehearsalFlow && <button className="secondary-button" onClick={() => resetAll(true)}>重新彩排</button>}
             </div>
@@ -680,13 +741,27 @@ export function ExplorationApp({
 
       {cameraOpen && <CameraChallenge checkpoint={checkpoint} attempt={progress.photoAttempts[checkpoint.id] ?? 0} surveyMode={surveyMode} storageNamespace={storageNamespace} onClose={() => setCameraOpen(false)} onPass={completeCheckpoint} onAttempt={recordAttempt}/>} 
 
+      {shopOpen && (
+        <ShopPanel
+          coins={progress.economy.coins}
+          items={experienceConfig.economy.shopItems}
+          purchases={progress.economy.purchases}
+          arrived={arrived}
+          cluePurchased={cluePurchased}
+          taskCompleted={checkpointCompleted}
+          onClose={() => setShopOpen(false)}
+          onBuy={buyShopItem}
+          onRedeem={redeemVoucher}
+        />
+      )}
+
       <AnimatePresence>
         {unlockOpen && (
           <motion.div className="unlock-backdrop" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
             <motion.section className="unlock-card" initial={{ scale: 0.7, rotate: -3 }} animate={{ scale: 1, rotate: 0 }}>
               <MagicMicroEffect variant="star-trail" />
               <div className="unlock-generated-rune" aria-hidden="true" />
-              <div className="unlock-seal">{checkpoint.giftType === "love" ? "♡" : "✦"}</div><span>PAGE {String(coordinateNumber).padStart(2, "0")} · REVEALED</span><h2>{checkpoint.label}<small>{giftNames[checkpoint.giftType]}</small></h2>{checkpoint.storyBeat && <blockquote className="unlock-story-beat">{checkpoint.storyBeat}</blockquote>}<p>{checkpoint.unlockCopy}</p>{lastResult && <small>照片匹配度 {lastResult.score}%{lastResult.poseScore === null ? " · 场景匹配模式" : " · 姿势已识别"}</small>}<button className="primary-button" onClick={continueAfterUnlock}>{checkpoint.giftType === "love" ? experienceConfig.finale.continueLabel : zone.checkpoints[zone.checkpoints.findIndex((item) => item.id === checkpoint.id) + 1] ? "寻找下一枚未知坐标" : "带着这一页返回飞行扫帚"}</button>
+              <div className="unlock-seal">✦</div><span>PAGE {String(coordinateNumber).padStart(2, "0")} · REVEALED</span><h2>{checkpoint.label}<small>{checkpoint.revealLabel}</small></h2>{checkpoint.storyBeat && <blockquote className="unlock-story-beat">{checkpoint.storyBeat}</blockquote>}<p>{checkpoint.unlockCopy}</p>{progress.economy.skippedCheckpointIds.includes(checkpoint.id) ? <small>已使用跳过任务 · 本站不发金币</small> : <small>任务奖励 +{checkpoint.coinReward} 金币{lastResult ? ` · 照片匹配度 ${lastResult.score}%` : ""}</small>}<button className="primary-button" onClick={continueAfterUnlock}>{zone.checkpoints[zone.checkpoints.findIndex((item) => item.id === checkpoint.id) + 1] ? "寻找下一枚未知坐标" : storyZones[zone.order] ? "带着这一页返回飞行扫帚" : "揭晓今晚的最后彩蛋"}</button>
             </motion.section>
           </motion.div>
         )}

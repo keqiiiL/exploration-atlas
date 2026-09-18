@@ -1,27 +1,36 @@
 import { describe, expect, it } from "vitest";
+import { experienceConfig } from "@/src/config/experience";
 import { fullTestZones } from "@/src/config/fullTestStory";
-import { fogMessages, zones } from "@/src/config/story";
+import { fogMessages, initialProgress, zones } from "@/src/config/story";
 import { haversineDistance, projectPositionToMap } from "@/src/lib/geo";
 
-describe("formal story route", () => {
-  it("uses two standalone drives followed by one three-coordinate walking atlas", () => {
+describe("formal Beijing story route", () => {
+  it("uses four tasks across three maps in the confirmed order", () => {
     expect(zones).toHaveLength(3);
     expect(fogMessages).toHaveLength(2);
-    expect(zones.map((zone) => zone.checkpoints.filter((item) => item.giftType !== "love").length))
-      .toEqual([1, 1, 3]);
-    expect(zones.flatMap((zone) => zone.checkpoints).map((item) => item.giftType))
-      .toEqual(["sound", "motion", "scent", "sparkle", "taste", "love"]);
-  });
-
-  it("starts each map at the intended parking area", () => {
-    expect(zones.map((zone) => zone.parkingLabel)).toEqual([
-      "经纬国际创意产业园停车场 · 石桥路 279 号",
-      "采荷科普园东侧 · 五安路附近",
-      "杭州来福士中心 · T1 停车区",
+    expect(zones.map((zone) => zone.checkpoints.length)).toEqual([1, 2, 1]);
+    expect(zones.flatMap((zone) => zone.checkpoints).map((item) => item.label)).toEqual([
+      "MY TIME LAB",
+      "可能有书",
+      "莱蒎黑胶唱片 Lipi Records",
+      "什刹海 · 银锭桥",
     ]);
   });
 
-  it("keeps browser positioning, checkpoints and illustrated anchors registered together", () => {
+  it("uses public outdoor arrival areas instead of indoor shop coordinates", () => {
+    expect(zones.map((zone) => zone.parkingLabel)).toEqual([
+      "西单大悦城北侧公共入口",
+      "前炒面胡同西口 · 东四南大街公共区域",
+      "烟袋斜街东侧公共区域",
+    ]);
+    expect(zones[2].checkpoints[0]).toMatchObject({
+      id: "yinding-bridge",
+      unlockRadiusM: 55,
+      location: { latitude: 39.937595528, longitude: 116.387090842 },
+    });
+  });
+
+  it("keeps WGS-84 routes, north-up bounds and checkpoint anchors registered", () => {
     for (const zone of zones) {
       expect(zone.coordinateSystem).toBe("wgs84");
       expect(zone.mapOrientation).toBe("north-up");
@@ -41,90 +50,46 @@ describe("formal story route", () => {
     }
   });
 
-  it("keeps Aesop, Dior and RUICH on the same walking route", () => {
-    expect(zones[2].checkpoints.slice(0, 3).map((item) => item.label))
-      .toEqual(["Aesop", "Dior", "RUICH"]);
-    expect(zones[2].mysterySubtitle).toContain("三枚坐标");
+  it("keeps the two Dongsi stops on one walkable map", () => {
+    expect(zones[1].checkpoints.map((item) => item.id)).toEqual(["maybe-books", "lipi-records"]);
+    expect(haversineDistance(zones[1].checkpoints[0].location, zones[1].checkpoints[1].location))
+      .toBeLessThan(800);
   });
 
-  it("ships the three field-shot references in third-map order", () => {
-    expect(zones[2].checkpoints.slice(0, 3).map((item) => item.referenceImage))
-      .toEqual([
-        "/references/scent.svg",
-        "/references/sparkle.svg",
-        "/references/taste.svg",
-      ]);
+  it("gives every normal task thirty coins and a paid clue", () => {
+    for (const checkpoint of zones.flatMap((zone) => zone.checkpoints)) {
+      expect(checkpoint.coinReward).toBe(30);
+      expect(checkpoint.paidClue.length).toBeGreaterThan(10);
+      expect(checkpoint.passScore).toBe(55);
+    }
   });
 
-  it("uses a daylight-tolerant pass score for every formal photo task", () => {
-    const photoCheckpoints = zones
-      .flatMap((zone) => zone.checkpoints)
-      .filter((checkpoint) => checkpoint.giftType !== "love");
-    expect(photoCheckpoints.every((checkpoint) => checkpoint.passScore === 55)).toBe(true);
-  });
-
-  it("uses the field-shot storefront reference for the vinyl task", () => {
-    expect(zones[0].checkpoints[0].referenceImage)
-      .toBe("/references/sound.svg");
-  });
-
-  it("uses one new illustrated map for each of the three formal walking areas", () => {
-    expect(zones.map((zone) => zone.illustratedMapAsset)).toEqual([
-      "/assets/maps/jingwei-sound-v3.jpg",
-      "/assets/maps/caihe-motion-v4.png",
-      "/assets/maps/qianjiang-grand-north-v4.png",
+  it("ships the confirmed economy prices and free dinner finale", () => {
+    expect(initialProgress.economy.coins).toBe(10);
+    expect(experienceConfig.economy.shopItems.map(({ kind, price }) => ({ kind, price }))).toEqual([
+      { kind: "clue", price: 10 },
+      { kind: "skip-task", price: 40 },
+      { kind: "milk-tea", price: 50 },
+      { kind: "food", price: 70 },
     ]);
+    expect(experienceConfig.finale.destination.name).toBe("Nino Nina 国贸");
+    expect(experienceConfig.finale.destination.note).toContain("不需要金币");
   });
 
-  it("keeps the field-tested bicycle pose photo instead of a placeholder", () => {
-    const bicycleZone = zones.find((zone) => zone.id === "motion-district");
-    expect(bicycleZone?.checkpoints[0].referenceImage).toBe("/references/motion.svg");
-  });
-
-  it("locks the two field-tested follow-up maps to their verified WGS-84 endpoints", () => {
-    expect(zones[1].id).toBe("motion-district");
-    expect(zones[1].checkpoints[0]).toMatchObject({
-      id: "liv-motion",
-      label: "Liv",
-      location: { latitude: 30.2597418, longitude: 120.1912823 },
-      unlockRadiusM: 30,
-    });
-    expect(zones[2].checkpoints.slice(0, 3).map(({ id, location, unlockRadiusM }) => ({
-      id,
-      location,
-      unlockRadiusM,
-    }))).toEqual([
-      {
-        id: "aesop-scent",
-        location: { latitude: 30.2552323, longitude: 120.2099383 },
-        unlockRadiusM: 30,
-      },
-      {
-        id: "dior-sparkle",
-        location: { latitude: 30.253989, longitude: 120.2110951 },
-        unlockRadiusM: 30,
-      },
-      {
-        id: "ruich-taste",
-        location: { latitude: 30.2509232654, longitude: 120.2078163859 },
-        unlockRadiusM: 30,
-      },
-    ]);
-  });
-
-  it("keeps every active goal clear of the collapsed left quest panel", () => {
-    for (const zone of zones) {
-      for (const checkpoint of zone.checkpoints) {
-        expect(checkpoint.mapPoint.x).toBeGreaterThanOrEqual(260);
-      }
+  it("keeps every goal clear of the collapsed left quest panel", () => {
+    for (const checkpoint of zones.flatMap((zone) => zone.checkpoints)) {
+      expect(checkpoint.mapPoint.x).toBeGreaterThanOrEqual(260);
     }
   });
 });
 
 describe("isolated full-test story route", () => {
-  it("mirrors the public example without sharing progress identifiers", () => {
+  it("mirrors the formal route without sharing identifiers", () => {
     expect(fullTestZones).toHaveLength(3);
     expect(fullTestZones.flatMap((zone) => zone.checkpoints).map((item) => item.giftType))
-      .toEqual(["sound", "motion", "scent", "sparkle", "taste", "love"]);
+      .toEqual(["sparkle", "scent", "sound", "motion"]);
+    expect(fullTestZones.every((zone) => zone.id.startsWith("fulltest-"))).toBe(true);
+    expect(fullTestZones.flatMap((zone) => zone.checkpoints).every((item) => item.id.startsWith("fulltest-")))
+      .toBe(true);
   });
 });

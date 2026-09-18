@@ -27,6 +27,34 @@ function isStoryProgress(value: unknown): value is StoryProgress {
   );
 }
 
+function normalizeProgress(saved: StoryProgress, fallback: StoryProgress): StoryProgress {
+  const candidate = saved as StoryProgress & { economy?: Partial<StoryProgress["economy"]> };
+  const economy = candidate.economy;
+  return {
+    ...saved,
+    economy: {
+      coins: Number.isFinite(economy?.coins) && Number(economy?.coins) >= 0
+        ? Number(economy?.coins)
+        : fallback.economy.coins,
+      awardedCheckpointIds: Array.isArray(economy?.awardedCheckpointIds)
+        ? economy.awardedCheckpointIds.filter((id): id is string => typeof id === "string")
+        : [],
+      skippedCheckpointIds: Array.isArray(economy?.skippedCheckpointIds)
+        ? economy.skippedCheckpointIds.filter((id): id is string => typeof id === "string")
+        : [],
+      purchases: Array.isArray(economy?.purchases)
+        ? economy.purchases.filter((purchase) =>
+            Boolean(purchase) &&
+            typeof purchase.id === "string" &&
+            typeof purchase.itemId === "string" &&
+            ["clue", "skip-task", "milk-tea", "food"].includes(String(purchase.kind)) &&
+            Number.isFinite(purchase.purchasedAt),
+          )
+        : [],
+    },
+  };
+}
+
 function databaseName(namespace = "formal") {
   if (namespace === "formal") return DB_NAME;
   const safeNamespace = namespace.toLowerCase().replace(/[^a-z0-9-]/g, "-").slice(0, 48);
@@ -53,7 +81,9 @@ export async function loadProgress(
   try {
     const db = await getDb(namespace);
     const saved = await db.get("state", "progress");
-    return isStoryProgress(saved) ? saved : structuredClone(fallbackProgress);
+    return isStoryProgress(saved)
+      ? normalizeProgress(saved, fallbackProgress)
+      : structuredClone(fallbackProgress);
   } catch {
     return structuredClone(fallbackProgress);
   }

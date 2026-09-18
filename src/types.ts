@@ -20,6 +20,32 @@ export type GiftType =
 
 export type MatchMode = "pose-scene" | "scene-only";
 
+export type ShopItemKind = "clue" | "skip-task" | "milk-tea" | "food";
+
+export type ShopPurchase = {
+  id: string;
+  itemId: string;
+  kind: ShopItemKind;
+  targetCheckpointId?: string;
+  purchasedAt: number;
+  consumedAt?: number;
+};
+
+export type EconomyProgress = {
+  coins: number;
+  awardedCheckpointIds: string[];
+  skippedCheckpointIds: string[];
+  purchases: ShopPurchase[];
+};
+
+export type ShopItem = {
+  id: string;
+  kind: ShopItemKind;
+  name: string;
+  description: string;
+  price: number;
+};
+
 export type Checkpoint = {
   id: string;
   label: string;
@@ -33,6 +59,9 @@ export type Checkpoint = {
   matchMode: MatchMode;
   passScore: number;
   clue: string;
+  paidClue: string;
+  coinReward: number;
+  revealLabel: string;
   unlockCopy: string;
   photoPrompt: string;
   mapPoint: { x: number; y: number };
@@ -73,6 +102,7 @@ export type StoryProgress = {
   phase: "intro" | "map" | "fog" | "finale";
   zoneStarted: boolean;
   arrivedCheckpointIds: string[];
+  economy: EconomyProgress;
 };
 
 export type PositionSample = LatLng & {

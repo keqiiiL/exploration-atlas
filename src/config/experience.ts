@@ -21,12 +21,21 @@ export const experienceConfig = {
     lastPage: "THE LAST PAGE OF THE PAST",
   },
   opening: {
-    lead: "今天，是一位探索者的魔法入学日。",
+    lead: "这是一封只写给一位探索者的北京邀请函。",
     lines: [
-      "杭州这座城市，正在因为你而暗潮涌动。",
-      "在不知名的某处地方，将翻转出特殊的惊喜。",
+      "四枚坐标散落在北京，从西单的时间实验室一路延伸到什刹海。",
+      "打开蜡封，让今天的路线在你脚下逐页显影。",
     ],
-    edition: "CUSTOM BIRTHDAY EDITION",
+    edition: "BEIJING · PRIVATE EDITION",
+  },
+  economy: {
+    initialCoins: 10,
+    shopItems: [
+      { id: "current-clue", kind: "clue", name: "本站线索", description: "揭开当前任务的一条额外提示。", price: 10 },
+      { id: "skip-current", kind: "skip-task", name: "跳过任务", description: "仅在 GPS 到达后可用；跳过后不发本站金币。", price: 40 },
+      { id: "milk-tea-voucher", kind: "milk-tea", name: "奶茶兑换券", description: "购买后生成保存在本机的兑换券。", price: 50 },
+      { id: "food-voucher", kind: "food", name: "食品兑换券", description: "购买后生成保存在本机的兑换券。", price: 70 },
+    ],
   },
   finale: {
     transition: "THE PAST HAS BEEN KEPT · A NEW CHAPTER BEGINS",
@@ -37,6 +46,11 @@ export const experienceConfig = {
     ],
     signature: "Happy Birthday, Explorer.",
     continueLabel: "翻开新一岁的第一章",
+    destination: {
+      name: "Nino Nina 国贸",
+      address: "国贸商城北区七层 · NL7003",
+      note: "最终晚饭彩蛋已解锁，不需要金币，也不需要再次定位。",
+    },
   },
   optionalMedia: {
     introFilm: {
