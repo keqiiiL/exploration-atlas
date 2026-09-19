@@ -130,7 +130,7 @@ describe("geographic matching", () => {
 describe("offline coordinate preparation", () => {
   it("keeps converted AMap public entrance points in WGS-84", () => {
     const fixtures = [
-      { gcj: { latitude: 39.910884, longitude: 116.37296 }, configured: zones[0].checkpoints[0].location },
+      { gcj: { latitude: 39.911356, longitude: 116.373222 }, configured: zones[0].checkpoints[0].location },
       { gcj: { latitude: 39.925088, longitude: 116.415263 }, configured: zones[1].checkpoints[1].location },
       { gcj: { latitude: 39.938999, longitude: 116.393337 }, configured: zones[2].checkpoints[0].location },
     ];

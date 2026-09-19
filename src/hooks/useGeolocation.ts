@@ -11,6 +11,16 @@ import type { PositionSample } from "@/src/types";
 
 type LocationStatus = "idle" | "requesting" | "active" | "imprecise" | "denied" | "unavailable";
 
+export function geolocationErrorMessage(code: number) {
+  if (code === 1) {
+    return "定位权限没有开启。请在系统设置中允许 Safari 或 Chrome 使用位置，并在浏览器的网站设置中允许本页定位。";
+  }
+  if (code === 3) {
+    return "定位请求已超时。请走到室外开阔处，确认系统的精确定位已开启后重试；仍可使用制图人暗门。";
+  }
+  return "暂时无法获得位置，墨点会停留在云雾里；你仍可重试或使用制图人暗门。";
+}
+
 function smoothCourse(previous: number | undefined, next: number, alpha = 0.58) {
   if (!Number.isFinite(previous)) return ((next % 360) + 360) % 360;
   const turn = ((next - Number(previous) + 540) % 360) - 180;
@@ -91,11 +101,7 @@ export function useGeolocation(enabled: boolean, maxAccuracy = 200) {
       },
       (locationError) => {
         setStatus(locationError.code === 1 ? "denied" : "unavailable");
-        setError(
-          locationError.code === 1
-            ? "定位权限没有开启。请在 Safari 网站设置中允许位置访问。"
-            : "暂时无法获得位置，墨点会停留在云雾里。",
-        );
+        setError(geolocationErrorMessage(locationError.code));
       },
       { enableHighAccuracy: true, maximumAge: 0, timeout: 25_000 },
     );

@@ -23,10 +23,22 @@ describe("formal Beijing story route", () => {
       "前炒面胡同西口 · 东四南大街公共区域",
       "烟袋斜街东侧公共区域",
     ]);
-    expect(zones[2].checkpoints[0]).toMatchObject({
-      id: "yinding-bridge",
-      unlockRadiusM: 55,
-      location: { latitude: 39.937595528, longitude: 116.387090842 },
+    expect(zones.flatMap((zone) => zone.checkpoints).map((checkpoint) => ({
+      id: checkpoint.id,
+      radius: checkpoint.unlockRadiusM,
+    }))).toEqual([
+      { id: "my-time-lab", radius: 55 },
+      { id: "maybe-books", radius: 50 },
+      { id: "lipi-records", radius: 55 },
+      { id: "yinding-bridge", radius: 60 },
+    ]);
+    expect(zones[0].checkpoints[0].location).toEqual({
+      latitude: 39.9099772968,
+      longitude: 116.3670070808,
+    });
+    expect(zones[2].checkpoints[0].location).toEqual({
+      latitude: 39.937595528,
+      longitude: 116.387090842,
     });
   });
 

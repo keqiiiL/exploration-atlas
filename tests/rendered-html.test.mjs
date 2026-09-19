@@ -20,5 +20,8 @@ test("ships a complete installable PWA", async () => {
   assert.equal(JSON.parse(manifest).orientation, "landscape");
   assert.match(sw, /pose_landmarker_lite\.task/);
   assert.match(sw, /references\/motion\.svg/);
+  assert.match(sw, /beijing-xidan-time-lab-v1\.svg/);
+  assert.match(sw, /beijing-dongsi-pages-records-v1\.svg/);
+  assert.match(sw, /beijing-shichahai-yinding-v1\.svg/);
   assert.doesNotMatch(sw, /custom\/intro-film|custom\/background-music/);
 });

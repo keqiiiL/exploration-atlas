@@ -39,6 +39,21 @@ async function seedProgress(page: Page, databaseName: string, progress: Record<s
   }, { databaseName, progress });
 }
 
+async function seedPhoto(page: Page, databaseName: string, photo: Record<string, unknown>) {
+  await page.evaluate(async ({ databaseName, photo }) => {
+    await new Promise<void>((resolve, reject) => {
+      const request = indexedDB.open(databaseName, 1);
+      request.onerror = () => reject(request.error);
+      request.onsuccess = () => {
+        const transaction = request.result.transaction("photos", "readwrite");
+        transaction.objectStore("photos").put(photo);
+        transaction.oncomplete = () => resolve();
+        transaction.onerror = () => reject(transaction.error);
+      };
+    });
+  }, { databaseName, photo });
+}
+
 function progressAt(checkpointId: string, zoneId: string, overrides: Record<string, unknown> = {}) {
   return {
     activeZoneId: zoneId,
@@ -69,9 +84,9 @@ test("arrives at the first outdoor checkpoint after two accurate GPS samples", a
   await page.goto("/?run=e2e-beijing-gps");
   await openAtlas(page);
   await page.getByRole("button", { name: "飞行扫帚已抵达，开始探索" }).click();
-  await context.setGeolocation({ latitude: 39.9094978, longitude: 116.3667361, accuracy: 14 });
+  await context.setGeolocation({ latitude: 39.9099773, longitude: 116.3670071, accuracy: 14 });
   await page.waitForTimeout(120);
-  await context.setGeolocation({ latitude: 39.909498, longitude: 116.3667363, accuracy: 13 });
+  await context.setGeolocation({ latitude: 39.9099775, longitude: 116.3670073, accuracy: 13 });
   await expect(page.getByRole("button", { name: "开启照片复刻" })).toBeVisible();
   await expect(page.locator(".quest-card h2")).toContainText("MY TIME LAB");
 });
@@ -182,10 +197,91 @@ test("keeps the cartographer fallback available when location is denied", async 
   await page.goto("/?run=e2e-location-denied");
   await openAtlas(page);
   await page.getByRole("button", { name: "飞行扫帚已抵达，开始探索" }).click();
+  await expect(page.getByText(/Safari 或 Chrome/)).toBeVisible();
   await openCartographer(page);
   await page.getByRole("button", { name: "强制抵达" }).click();
   await expect(page.getByRole("button", { name: "开启照片复刻" })).toBeVisible();
   expect(new URL(baseURL!).origin).toMatch(/^http:\/\/127\.0\.0\.1:/);
+});
+
+test("explains low-accuracy and timeout recovery without blocking the fallback", async ({ page, context, baseURL }) => {
+  await context.grantPermissions(["geolocation"], { origin: new URL(baseURL!).origin });
+  await context.setGeolocation({ latitude: 39.9099773, longitude: 116.3670071, accuracy: 300 });
+  await page.goto("/?run=e2e-location-imprecise");
+  await openAtlas(page);
+  await page.getByRole("button", { name: "飞行扫帚已抵达，开始探索" }).click();
+  await expect(page.getByText(/当前定位精度约 ±300 米/)).toBeVisible();
+  await openCartographer(page);
+  await expect(page.getByRole("button", { name: "强制抵达" })).toBeEnabled();
+
+  await page.addInitScript(() => {
+    Object.defineProperty(navigator, "geolocation", {
+      configurable: true,
+      value: {
+        clearWatch: () => undefined,
+        watchPosition: (_success: PositionCallback, error: PositionErrorCallback) => {
+          window.setTimeout(() => error({ code: 3, message: "timeout", PERMISSION_DENIED: 1, POSITION_UNAVAILABLE: 2, TIMEOUT: 3 }), 0);
+          return 1;
+        },
+      },
+    });
+  });
+  await page.goto("/?run=e2e-location-timeout");
+  await openAtlas(page);
+  await page.getByRole("button", { name: "飞行扫帚已抵达，开始探索" }).click();
+  await expect(page.getByText(/定位请求已超时/)).toBeVisible();
+  await expect(page.getByText(/制图人暗门/)).toBeVisible();
+});
+
+test("restores task state, coins, purchases and photos after refresh", async ({ page }) => {
+  const run = "e2e-complete-local-restore";
+  const databaseName = `exploration-atlas-formal-${run}`;
+  await page.goto(`/?run=${run}`);
+  await expect(page.getByRole("heading", { name: "Exploration Atlas" })).toBeVisible();
+  await page.waitForTimeout(150);
+  await seedProgress(page, databaseName, progressAt("maybe-books", "dongsi-pages-and-records", {
+    completedCheckpointIds: ["my-time-lab"],
+    capturedPhotoIds: ["photo-one"],
+    photoAttempts: { "my-time-lab": 1 },
+    economy: {
+      coins: 30,
+      awardedCheckpointIds: ["my-time-lab"],
+      skippedCheckpointIds: [],
+      purchases: [{ id: "clue-one", itemId: "clue", kind: "clue", targetCheckpointId: "maybe-books", purchasedAt: 1 }],
+    },
+  }));
+  await seedPhoto(page, databaseName, {
+    id: "photo-one",
+    checkpointId: "my-time-lab",
+    dataUrl: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='2' height='2'/%3E",
+    score: 88,
+    createdAt: 1,
+  });
+  await page.reload();
+  await expect(page.getByRole("button", { name: "打开商店，金币余额 30" })).toBeVisible();
+  await expect(page.locator(".quest-card h2")).toContainText("第二枚未知坐标");
+  await expect(page.getByRole("img", { name: "探索复刻照片" })).toBeVisible();
+  await page.getByRole("button", { name: "查看线索" }).click();
+  await expect(page.getByText("在店里找一本仅凭书名")).toBeVisible();
+});
+
+test("isolates formal progress from Demo mode for the same run id", async ({ page }) => {
+  const run = "e2e-mode-isolation";
+  await page.goto(`/?run=${run}`);
+  await expect(page.getByRole("heading", { name: "Exploration Atlas" })).toBeVisible();
+  await page.waitForTimeout(150);
+  await seedProgress(page, `exploration-atlas-formal-${run}`, progressAt("my-time-lab", "xidan-time-lab", {
+    economy: { coins: 77, awardedCheckpointIds: [], skippedCheckpointIds: [], purchases: [] },
+  }));
+  await page.reload();
+  await expect(page.getByRole("button", { name: "打开商店，金币余额 77" })).toBeVisible();
+
+  await page.goto(`/?mode=demo&run=${run}`);
+  await expect(page.getByRole("heading", { name: "Exploration Atlas" })).toBeVisible();
+  await expect(page.getByRole("button", { name: "打开商店，金币余额 10" })).toBeVisible();
+
+  await page.goto(`/?run=${run}`);
+  await expect(page.getByRole("button", { name: "打开商店，金币余额 77" })).toBeVisible();
 });
 
 test("builds an installable offline shell without changing the service-worker flow", async ({ page, context }) => {
