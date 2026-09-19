@@ -56,6 +56,14 @@ describe("formal Beijing story route", () => {
       .toBeLessThan(800);
   });
 
+  it("uses one Beijing illustration for each route group", () => {
+    expect(zones.map((zone) => zone.illustratedMapAsset)).toEqual([
+      "/assets/maps/beijing-xidan-time-lab-v1.svg",
+      "/assets/maps/beijing-dongsi-pages-records-v1.svg",
+      "/assets/maps/beijing-shichahai-yinding-v1.svg",
+    ]);
+  });
+
   it("gives every normal task thirty coins and a paid clue", () => {
     for (const checkpoint of zones.flatMap((zone) => zone.checkpoints)) {
       expect(checkpoint.coinReward).toBe(30);

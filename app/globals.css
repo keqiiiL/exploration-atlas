@@ -892,7 +892,7 @@ h1, h2, h3, blockquote, .display-type {
   background-size: auto, auto, cover;
 }
 .loading-screen::before { content: ""; position: absolute; left: 50%; top: 48%; width: min(690px, 72vw); aspect-ratio: 1672 / 941; transform: translate(-50%, -50%) scale(.94); background: url('/assets/magic/explorer-envelope-open-v3.png') center/contain no-repeat; filter: brightness(.66) sepia(.18) drop-shadow(0 28px 42px #050201); opacity: .82; animation: loadingEnvelopeBreathe 2.8s ease-in-out infinite; }
-.loading-screen::after { content: "PRIVATE DELIVERY · HANGZHOU"; position: absolute; left: 50%; bottom: 8%; transform: translateX(-50%); letter-spacing: .28em; font-size: 8px; color: #b99355; }
+.loading-screen::after { content: "PRIVATE DELIVERY · BEIJING"; position: absolute; left: 50%; bottom: 8%; transform: translateX(-50%); letter-spacing: .28em; font-size: 8px; color: #b99355; }
 .loading-screen .ink-loader { position: relative; z-index: 2; width: 78px; height: 78px; margin-top: 18vh; background: url('/assets/magic/exploration-wax-seal-v3.png') center/contain no-repeat; filter: drop-shadow(0 8px 10px #160806) drop-shadow(0 0 8px #dba9545e); animation: loadingSealPulse 2.2s ease-in-out infinite; }
 .loading-screen p { position: relative; z-index: 2; margin: -4px 0 0; color: #ead19b; letter-spacing: .14em; font-size: 11px; text-shadow: 0 2px 7px #080302; }
 
@@ -1542,6 +1542,165 @@ h1, h2, h3, blockquote, .display-type {
 .final-destination h2 { margin: 8px 0 4px; font-size: 30px; }
 .final-destination p { margin: 0 0 8px; }
 .final-destination small { color: #cbb78d; }
+
+/* Beijing private edition — presentation only. Runtime geography stays in the map overlay. */
+.intro-screen {
+  background-color: #1b100d;
+  background-image:
+    radial-gradient(circle at 50% 43%, #9c7049 0 15%, #563624 48%, #180d0a 84%),
+    linear-gradient(90deg, #6e25281a 0 12%, transparent 12% 88%, #6e25281a 88%);
+}
+.intro-map-lines {
+  opacity: .14;
+  background-image:
+    radial-gradient(circle at 50% 50%, transparent 0 34%, #b78b5130 34.2% 34.5%, transparent 34.7%),
+    repeating-linear-gradient(0deg, transparent 0 69px, #d1a66621 70px 71px),
+    repeating-linear-gradient(90deg, transparent 0 69px, #d1a66621 70px 71px);
+}
+.envelope-letter-content::after {
+  content: "京";
+  position: absolute;
+  right: 3%;
+  bottom: 1%;
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  border: 2px solid #7f2929;
+  color: #7f2929;
+  font: 700 19px/1 var(--font-body);
+  opacity: .72;
+  transform: rotate(-7deg);
+  box-shadow: inset 0 0 0 2px #d6b27a;
+}
+.opening-letter .envelope-letter-content h1 { color: #291b15; text-shadow: 0 1px 0 #f6e6c1, 0 4px 18px #6f3d2033; }
+.opening-letter .envelope-letter-content h1 em { color: #742f2d; }
+.intro-wax-trigger b { border-color: #742f2d78; box-shadow: 0 6px 16px #2c140c45, inset 0 0 0 1px #fff0c64f; }
+
+.map-stage {
+  background-color: #ad8556;
+  background-image: linear-gradient(140deg, #e8d3a5e8, #af8050de), url('/assets/parchment-atlas-bg.png');
+}
+.map-stage::before {
+  content: "";
+  position: absolute;
+  z-index: 3;
+  inset: 9px;
+  pointer-events: none;
+  border: 1px solid #3b281b47;
+  box-shadow: inset 0 0 0 4px #d6b77d24, inset 0 0 95px #2f1a1052;
+}
+.illustrated-base-map { filter: saturate(.9) contrast(1.03) brightness(.97); }
+.route-path { stroke: #4a1e1d; stroke-width: 1.8; opacity: .76; }
+.route-path-aura { stroke: #f0c86f; stroke-width: 8.5; opacity: .16; }
+.goal-tag rect { fill: #6f2726eb; stroke: #f0d493; }
+.you-heading-arrow path { fill: #1f4d50; }
+
+.coin-balance {
+  position: relative;
+  min-width: 116px;
+  padding: 9px 15px 9px 38px;
+  border-color: #d1aa66;
+  color: #f4dda2;
+  background: linear-gradient(120deg, #671f21, #2a1711 62%, #173638);
+  box-shadow: inset 0 0 0 1px #f1ce832c, 0 5px 16px #0804039e, 0 0 16px #c78f3922;
+}
+.coin-balance::before {
+  content: "京";
+  position: absolute;
+  left: 8px;
+  top: 50%;
+  width: 23px;
+  height: 23px;
+  display: grid;
+  place-items: center;
+  border: 1px solid #f0cf87;
+  border-radius: 50%;
+  color: #5e2020;
+  background: radial-gradient(circle at 34% 28%, #f6dda0, #bd8236 72%);
+  font: 700 11px/1 var(--font-body);
+  box-shadow: 0 0 0 2px #23120d, 0 0 8px #d6a04c70;
+  transform: translateY(-50%);
+}
+.coin-balance:hover { filter: brightness(1.1); transform: translateY(-1px); }
+
+.quest-card { border-color: #8d312f; box-shadow: inset 0 0 70px #4d2b1766, inset 0 0 0 5px #e9ca8d1f, 0 18px 42px #0d0806bf; }
+.quest-card::before { border-color: #77302e88; }
+.quest-card::after { content: "✦  BEIJING FIELD NOTE  ✦"; color: #6e2c2b99; }
+.quest-card h2 small { color: #74322e; }
+.quest-paid-clue { border-left: 3px solid #78302e; border-radius: 2px; background: linear-gradient(90deg, #f4dfae8a, #cfaa7161); }
+.quest-paid-clue b { color: #742f2d; }
+
+.shop-backdrop {
+  background-color: #0d0706e8;
+  background-image: radial-gradient(circle at 50% 45%, #6f332c45, transparent 52%), linear-gradient(90deg, #17383a26, transparent 36% 64%, #6c242626);
+  -webkit-backdrop-filter: blur(10px) saturate(.8);
+  backdrop-filter: blur(10px) saturate(.8);
+}
+.shop-panel {
+  position: relative;
+  border: 1px solid #c39a5a;
+  clip-path: polygon(0 18px, 18px 0, calc(100% - 18px) 0, 100% 18px, 100% calc(100% - 18px), calc(100% - 18px) 100%, 18px 100%, 0 calc(100% - 18px));
+  background:
+    linear-gradient(135deg, #361715f4, #1b110cf7 48%, #102d2ff2),
+    url('/assets/magic/parchment-cinematic-v1.jpg') center/cover;
+  box-shadow: 0 34px 110px #000, inset 0 0 0 7px #e0b86212, inset 0 0 100px #0008;
+}
+.shop-panel::before { content: ""; position: absolute; inset: 9px; pointer-events: none; border: 1px solid #d5ad6338; clip-path: inherit; }
+.shop-panel > header { position: relative; z-index: 1; padding-bottom: 18px; border-bottom: 1px solid #c49a5854; }
+.shop-panel > header h2 { color: #f0d9a5; letter-spacing: .05em; }
+.shop-panel > header strong { min-width: 86px; padding: 9px 13px; border: 1px solid #ba8c4f; border-radius: 999px; text-align: center; background: #150c08a8; box-shadow: inset 0 0 12px #d8a64b22; }
+.shop-panel > header button { border-radius: 999px; background: transparent; }
+.shop-grid article {
+  position: relative;
+  overflow: hidden;
+  border-color: #9b754a;
+  background: linear-gradient(145deg, #f2dbab12, #17100c38);
+  box-shadow: inset 0 0 32px #0004, 0 8px 18px #0004;
+}
+.shop-grid article::before { content: "?"; position: absolute; right: 13px; top: 9px; color: #c59b5f30; font: 52px/1 var(--font-display); }
+.shop-grid article:nth-child(2)::before { content: "↠"; }
+.shop-grid article:nth-child(3)::before { content: "茶"; font-family: var(--font-body); }
+.shop-grid article:nth-child(4)::before { content: "食"; font-family: var(--font-body); }
+.shop-grid h3, .shop-grid p, .shop-grid button, .shop-grid article > span { position: relative; z-index: 1; }
+.shop-grid button, .voucher-list button { border-radius: 6px; background: linear-gradient(180deg, #6f2726, #3b1b18); box-shadow: inset 0 0 0 1px #f1ce8320; }
+.shop-grid button:disabled, .voucher-list button:disabled { background: #2a211b; }
+.voucher-list article {
+  position: relative;
+  border: 1px solid #c29a5c;
+  border-left: 5px solid #702726;
+  background: linear-gradient(90deg, #e2c68e12, #14313342);
+  box-shadow: inset 0 0 18px #0003;
+}
+.voucher-list article::after { content: "LOCAL · BEIJING"; position: absolute; left: 52%; top: 50%; color: #d8b56f24; font: 700 19px/1 var(--font-inscription); letter-spacing: .12em; transform: translate(-50%, -50%) rotate(-4deg); pointer-events: none; }
+.voucher-list article.is-redeemed::after { content: "REDEEMED · 已兑换"; color: #d8b56f48; }
+
+.unlock-card { border-color: #8c302e; }
+.unlock-card h2 small { color: #73312e; }
+.unlock-card > small { color: #6d2d2b; font-weight: 700; }
+
+.finale-screen {
+  background-color: #122b2d;
+  background-image:
+    radial-gradient(circle at 50% 42%, #d6b276 0 10%, #6f4430b8 35%, #102729ed 78%),
+    url('/assets/magic/parchment-cinematic-v1.jpg');
+  background-blend-mode: color, multiply;
+}
+.finale-screen::after { content: "✦  北京探索档案 · DINNER REVEALED  ✦"; color: #e2c487; opacity: .78; }
+.finale-content { color: #f0ddb2; text-shadow: 0 2px 9px #080403; }
+.finale-screen h1 { color: #f2dca8; text-shadow: 0 2px 0 #6d2928, 0 12px 34px #0009; }
+.finale-screen blockquote { color: #dfc99d; }
+.final-destination {
+  position: relative;
+  border: 1px solid #d0a65f;
+  border-left: 5px solid #7c2b2a;
+  background: linear-gradient(110deg, #782b292e, #e0bc7720 48%, #1541434f);
+  box-shadow: inset 0 0 32px #0004, 0 10px 25px #0004;
+}
+.final-destination::before { content: "晚"; position: absolute; left: 18px; top: 50%; width: 37px; height: 37px; display: grid; place-items: center; border: 2px solid #b85d55; color: #d78676; font: 700 20px/1 var(--font-body); opacity: .68; transform: translateY(-50%) rotate(-6deg); }
+.final-destination h2, .final-destination p, .final-destination small, .final-destination span { margin-left: 46px; }
+.final-destination h2 { color: #f2d99e; }
+.final-destination small { color: #d8c294; }
 
 @media (orientation: portrait) and (max-width: 900px) {
   .atlas-shell > :not(.rotate-notice) { display: none !important; }

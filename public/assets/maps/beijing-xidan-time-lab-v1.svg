@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500">
+  <defs>
+    <linearGradient id="paper" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ead7aa"/><stop offset=".52" stop-color="#cfa76c"/><stop offset="1" stop-color="#9c6c48"/></linearGradient>
+    <radialGradient id="wash"><stop stop-color="#f5e6bd" stop-opacity=".7"/><stop offset="1" stop-color="#8c553d" stop-opacity=".12"/></radialGradient>
+    <filter id="grain"><feTurbulence type="fractalNoise" baseFrequency=".7" numOctaves="3" seed="21"/><feColorMatrix values="0 0 0 0 .25 0 0 0 0 .15 0 0 0 0 .08 0 0 0 .16 0"/></filter>
+    <pattern id="brick" width="22" height="12" patternUnits="userSpaceOnUse"><path d="M0 0h22M0 12h22M11 0v6M0 6h22M5 6v6" fill="none" stroke="#764932" stroke-opacity=".12" stroke-width=".7"/></pattern>
+  </defs>
+  <rect width="800" height="500" fill="url(#paper)"/><rect width="800" height="500" fill="url(#wash)"/><rect width="800" height="500" filter="url(#grain)" opacity=".42"/>
+  <g fill="none" stroke="#503225" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M0 338C180 331 330 344 800 327" stroke-width="28" opacity=".22"/><path d="M0 338C180 331 330 344 800 327" stroke="#e4c88e" stroke-width="19" opacity=".88"/>
+    <path d="M385-20C378 100 388 254 373 520" stroke-width="31" opacity=".24"/><path d="M385-20C378 100 388 254 373 520" stroke="#e6c98d" stroke-width="21" opacity=".92"/>
+    <path d="M31 190C206 182 325 194 522 175S698 143 821 151" stroke-width="16" opacity=".2"/><path d="M31 190C206 182 325 194 522 175S698 143 821 151" stroke="#dfbe7d" stroke-width="10" opacity=".88"/>
+    <path d="M55 430C214 410 342 420 534 400S700 391 810 375" stroke-width="12" opacity=".17"/><path d="M55 430C214 410 342 420 534 400S700 391 810 375" stroke="#d8b676" stroke-width="7" opacity=".78"/>
+    <path d="M184 28C189 153 175 280 190 474M585 18C570 174 591 322 568 484" stroke-width="10" opacity=".2"/>
+  </g>
+  <g fill="url(#brick)" stroke="#68432f" stroke-width="1.2" opacity=".66">
+    <path d="M45 55h112v91H45zM213 48h119v99H213zM430 42h122v106H430zM615 40h130v83H615z"/>
+    <path d="M49 225h112v71H49zM214 222h116v72H214zM430 214h134v81H430zM612 202h129v85H612z"/>
+    <path d="M52 365h109v83H52zM212 366h118v77H212zM427 354h137v91H427zM610 351h132v88H610z"/>
+  </g>
+  <g transform="translate(418 201)" fill="none" stroke="#3c281f" stroke-width="2">
+    <path d="M0 102V22l18-14h119l22 14v80M-9 102h178M14 31h132M23 43v48M57 43v48M91 43v48M125 43v48"/>
+    <path d="M18 8 54-12h54l29 20"/><circle cx="79" cy="23" r="8"/><path d="M79 18v10M74 23h10"/>
+    <text x="79" y="121" text-anchor="middle" fill="#3c281f" stroke="none" font-family="serif" font-size="10" font-weight="700" letter-spacing="1.5">西单大悦城 · XIDAN JOY CITY</text>
+  </g>
+  <g transform="translate(660 278)" fill="none" stroke="#6f302a" stroke-width="1.7" opacity=".9">
+    <circle r="49"/><circle r="40" stroke-dasharray="2 4"/><path d="M-25 0h50M0-25v50M-18-18l36 36M18-18l-36 36"/>
+    <text y="4" text-anchor="middle" fill="#6f302a" stroke="none" font-family="serif" font-size="11" font-weight="700">西单</text>
+  </g>
+  <g fill="#442a20" font-family="serif" font-size="9" font-weight="700" letter-spacing="2">
+    <text x="382" y="116" transform="rotate(88 382 116)">西单北大街</text><text x="625" y="318">西长安街</text><text x="82" y="181">灵境胡同</text><text x="73" y="420">堂子胡同</text>
+  </g>
+  <g transform="translate(82 89)" fill="none" stroke="#486054" stroke-width="1.6" opacity=".7"><path d="M0 36q32-52 66-8t63-12"/><circle cx="35" cy="20" r="9"/><circle cx="91" cy="20" r="8"/><path d="M35 29v24M91 28v23M19 52h95"/><text x="64" y="68" text-anchor="middle" fill="#405548" stroke="none" font-size="8">街心绿荫</text></g>
+  <path d="M14 13h178M14 13v92M786 487H614M786 487v-92" fill="none" stroke="#6f3b2f" stroke-width="2" opacity=".55"/>
+  <text x="26" y="478" fill="#5b3828" font-family="serif" font-size="8" letter-spacing="2">BEIJING ARCHIVE · XIDAN / PAGE 01</text>
+</svg>

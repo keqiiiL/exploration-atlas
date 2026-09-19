@@ -25,6 +25,7 @@ const xidanZone: ExplorationZone = {
   mapKind: "city",
   mapOrientation: "north-up",
   mapBounds: { north: 39.912, south: 39.907, west: 116.3635, east: 116.3705 },
+  illustratedMapAsset: "/assets/maps/beijing-xidan-time-lab-v1.svg",
   checkpoints: [{
     id: "my-time-lab",
     label: "MY TIME LAB",
@@ -76,6 +77,7 @@ const dongsiZone: ExplorationZone = {
   mapKind: "vinyl",
   mapOrientation: "north-up",
   mapBounds: { north: 39.9252, south: 39.917, west: 116.407, east: 116.4125 },
+  illustratedMapAsset: "/assets/maps/beijing-dongsi-pages-records-v1.svg",
   checkpoints: [
     {
       id: "maybe-books",
@@ -143,6 +145,7 @@ const shichahaiZone: ExplorationZone = {
   mapKind: "garden",
   mapOrientation: "north-up",
   mapBounds: { north: 39.9405, south: 39.9345, west: 116.3835, east: 116.3905 },
+  illustratedMapAsset: "/assets/maps/beijing-shichahai-yinding-v1.svg",
   checkpoints: [{
     id: "yinding-bridge",
     label: "什刹海 · 银锭桥",
