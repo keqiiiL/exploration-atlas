@@ -1,36 +1,55 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500">
   <defs>
-    <linearGradient id="paper" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ead7aa"/><stop offset=".52" stop-color="#cfa76c"/><stop offset="1" stop-color="#9c6c48"/></linearGradient>
-    <radialGradient id="wash"><stop stop-color="#f5e6bd" stop-opacity=".7"/><stop offset="1" stop-color="#8c553d" stop-opacity=".12"/></radialGradient>
-    <filter id="grain"><feTurbulence type="fractalNoise" baseFrequency=".7" numOctaves="3" seed="21"/><feColorMatrix values="0 0 0 0 .25 0 0 0 0 .15 0 0 0 0 .08 0 0 0 .16 0"/></filter>
-    <pattern id="brick" width="22" height="12" patternUnits="userSpaceOnUse"><path d="M0 0h22M0 12h22M11 0v6M0 6h22M5 6v6" fill="none" stroke="#764932" stroke-opacity=".12" stroke-width=".7"/></pattern>
+    <linearGradient id="paper" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f1dfb5"/><stop offset=".5" stop-color="#d9bd82"/><stop offset="1" stop-color="#b1845d"/></linearGradient>
+    <radialGradient id="paper-light" cx="50%" cy="43%" r="72%"><stop stop-color="#fff2cf" stop-opacity=".47"/><stop offset=".68" stop-color="#f4dca8" stop-opacity=".08"/><stop offset="1" stop-color="#5f3426" stop-opacity=".18"/></radialGradient>
+    <linearGradient id="road" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#f1dda9"/><stop offset=".52" stop-color="#e7cd96"/><stop offset="1" stop-color="#cfaa73"/></linearGradient>
+    <linearGradient id="facade" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#d7b779"/><stop offset="1" stop-color="#ad784f"/></linearGradient>
+    <filter id="grain" x="-10%" y="-10%" width="120%" height="120%"><feTurbulence type="fractalNoise" baseFrequency=".46" numOctaves="2" seed="21"/><feColorMatrix values="0 0 0 0 .24 0 0 0 0 .15 0 0 0 0 .08 0 0 0 .09 0"/></filter>
+    <filter id="block-shadow" x="-20%" y="-20%" width="150%" height="160%"><feDropShadow dx="2" dy="4" stdDeviation="2.4" flood-color="#4b2d20" flood-opacity=".3"/></filter>
+    <pattern id="roof-hatch" width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(24)"><path d="M0 0V9" stroke="#68432f" stroke-opacity=".18" stroke-width="1"/></pattern>
+    <pattern id="shopfront" width="18" height="10" patternUnits="userSpaceOnUse"><path d="M0 0h18M2 3v7M9 3v7M16 3v7" fill="none" stroke="#6c4330" stroke-opacity=".26" stroke-width=".65"/></pattern>
   </defs>
-  <rect width="800" height="500" fill="url(#paper)"/><rect width="800" height="500" fill="url(#wash)"/><rect width="800" height="500" filter="url(#grain)" opacity=".42"/>
-  <g fill="none" stroke="#503225" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M0 338C180 331 330 344 800 327" stroke-width="28" opacity=".22"/><path d="M0 338C180 331 330 344 800 327" stroke="#e4c88e" stroke-width="19" opacity=".88"/>
-    <path d="M385-20C378 100 388 254 373 520" stroke-width="31" opacity=".24"/><path d="M385-20C378 100 388 254 373 520" stroke="#e6c98d" stroke-width="21" opacity=".92"/>
-    <path d="M31 190C206 182 325 194 522 175S698 143 821 151" stroke-width="16" opacity=".2"/><path d="M31 190C206 182 325 194 522 175S698 143 821 151" stroke="#dfbe7d" stroke-width="10" opacity=".88"/>
-    <path d="M55 430C214 410 342 420 534 400S700 391 810 375" stroke-width="12" opacity=".17"/><path d="M55 430C214 410 342 420 534 400S700 391 810 375" stroke="#d8b676" stroke-width="7" opacity=".78"/>
-    <path d="M184 28C189 153 175 280 190 474M585 18C570 174 591 322 568 484" stroke-width="10" opacity=".2"/>
+  <rect width="800" height="500" fill="url(#paper)"/><rect width="800" height="500" fill="url(#paper-light)"/>
+  <g fill="none" stroke="#704633" opacity=".11"><path d="M398 0c-8 88 9 170-1 250s8 164-2 250"/><path d="M0 250c128-5 254 7 400-1s266 8 400-3"/></g>
+  <rect width="800" height="500" filter="url(#grain)" opacity=".5"/>
+  <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M0 338C180 331 330 344 800 327" stroke="#523326" stroke-width="31" opacity=".25"/><path d="M0 338C180 331 330 344 800 327" stroke="url(#road)" stroke-width="21"/><path d="M0 338C180 331 330 344 800 327" stroke="#79513a" stroke-width=".9" stroke-dasharray="2 8" opacity=".65"/>
+    <path d="M385-20C378 100 388 254 373 520" stroke="#513326" stroke-width="35" opacity=".27"/><path d="M385-20C378 100 388 254 373 520" stroke="url(#road)" stroke-width="24"/><path d="M385-20C378 100 388 254 373 520" stroke="#704735" stroke-width="1" stroke-dasharray="3 9" opacity=".64"/>
+    <path d="M31 190C206 182 325 194 522 175S698 143 821 151" stroke="#543427" stroke-width="19" opacity=".23"/><path d="M31 190C206 182 325 194 522 175S698 143 821 151" stroke="#e7cc92" stroke-width="12"/>
+    <path d="M55 430C214 410 342 420 534 400S700 391 810 375" stroke="#563729" stroke-width="14" opacity=".2"/><path d="M55 430C214 410 342 420 534 400S700 391 810 375" stroke="#ddbd83" stroke-width="8"/>
+    <path d="M184 28C189 153 175 280 190 474M585 18C570 174 591 322 568 484" stroke="#543729" stroke-width="12" opacity=".2"/><path d="M184 28C189 153 175 280 190 474M585 18C570 174 591 322 568 484" stroke="#e0c48e" stroke-width="7"/>
   </g>
-  <g fill="url(#brick)" stroke="#68432f" stroke-width="1.2" opacity=".66">
-    <path d="M45 55h112v91H45zM213 48h119v99H213zM430 42h122v106H430zM615 40h130v83H615z"/>
-    <path d="M49 225h112v71H49zM214 222h116v72H214zM430 214h134v81H430zM612 202h129v85H612z"/>
-    <path d="M52 365h109v83H52zM212 366h118v77H212zM427 354h137v91H427zM610 351h132v88H610z"/>
+  <g stroke="#62412f" stroke-width="1" filter="url(#block-shadow)">
+    <g transform="translate(42 49)"><path d="M0 8 13 0h103l8 10v79H0Z" fill="#c39b68"/><path d="M8 15h106v38H8z" fill="url(#roof-hatch)"/><path d="M8 58h106v24H8z" fill="url(#shopfront)"/><path d="M18 20h33v29H18zM57 20h48v29H57z" fill="#d7b77f" opacity=".58"/></g>
+    <g transform="translate(211 45)"><path d="M0 5 10 0h105l10 8v94H0Z" fill="#c59e6c"/><path d="M7 13h111v44H7z" fill="url(#roof-hatch)"/><path d="M7 64h111v31H7z" fill="url(#shopfront)"/><path d="M18 21h41v29H18zM66 21h41v29H66z" fill="#ddc18b" opacity=".48"/></g>
+    <g transform="translate(426 40)"><path d="M0 9 12 0h112l9 8v102H0Z" fill="#c29a67"/><path d="M8 16h117v47H8z" fill="url(#roof-hatch)"/><path d="M8 70h117v32H8z" fill="url(#shopfront)"/><path d="M18 24h31v31H18zM56 24h25v31H56zM88 24h27v31H88z" fill="#dcc08c" opacity=".45"/></g>
+    <g transform="translate(611 39)"><path d="M0 7 13 0h121l8 10v78H0Z" fill="#bd9565"/><path d="M8 15h126v31H8z" fill="url(#roof-hatch)"/><path d="M8 53h126v27H8z" fill="url(#shopfront)"/><path d="M18 21h34v20H18zM59 21h31v20H59zM97 21h27v20H97z" fill="#ddbf86" opacity=".44"/></g>
+    <g transform="translate(45 221)"><path d="M0 7 9 0h108l8 8v75H0Z" fill="#c7a06d"/><path d="M7 14h111v31H7z" fill="url(#roof-hatch)"/><path d="M7 52h111v24H7z" fill="url(#shopfront)"/><path d="M17 19h38v21H17zM62 19h45v21H62z" fill="#e0c692" opacity=".4"/></g>
+    <g transform="translate(211 218)"><path d="M0 6 12 0h109l8 10v77H0Z" fill="#c39a67"/><path d="M7 14h115v32H7z" fill="url(#roof-hatch)"/><path d="M7 53h115v27H7z" fill="url(#shopfront)"/><path d="M18 20h28v21H18zM52 20h29v21H52zM87 20h24v21H87z" fill="#ddc08b" opacity=".45"/></g>
+    <g transform="translate(610 199)"><path d="M0 8 12 0h122l10 9v88H0Z" fill="#bd9362"/><path d="M8 16h128v38H8z" fill="url(#roof-hatch)"/><path d="M8 61h128v28H8z" fill="url(#shopfront)"/><path d="M18 23h35v24H18zM60 23h28v24H60zM95 23h30v24H95z" fill="#dbbd87" opacity=".45"/></g>
+    <g transform="translate(48 362)"><path d="M0 7 11 0h105l8 9v84H0Z" fill="#b98d61"/><path d="M8 15h108v35H8z" fill="url(#roof-hatch)"/><path d="M8 57h108v28H8z" fill="url(#shopfront)"/></g>
+    <g transform="translate(208 362)"><path d="M0 7 10 0h112l9 10v80H0Z" fill="#bf9565"/><path d="M7 15h117v34H7z" fill="url(#roof-hatch)"/><path d="M7 56h117v27H7z" fill="url(#shopfront)"/></g>
+    <g transform="translate(424 353)"><path d="M0 8 11 0h128l10 10v94H0Z" fill="#b88a5d"/><path d="M8 16h133v40H8z" fill="url(#roof-hatch)"/><path d="M8 63h133v33H8z" fill="url(#shopfront)"/></g>
+    <g transform="translate(608 349)"><path d="M0 7 12 0h123l9 9v91H0Z" fill="#b3875e"/><path d="M8 15h128v39H8z" fill="url(#roof-hatch)"/><path d="M8 61h128v31H8z" fill="url(#shopfront)"/></g>
   </g>
-  <g transform="translate(418 201)" fill="none" stroke="#3c281f" stroke-width="2">
-    <path d="M0 102V22l18-14h119l22 14v80M-9 102h178M14 31h132M23 43v48M57 43v48M91 43v48M125 43v48"/>
-    <path d="M18 8 54-12h54l29 20"/><circle cx="79" cy="23" r="8"/><path d="M79 18v10M74 23h10"/>
-    <text x="79" y="121" text-anchor="middle" fill="#3c281f" stroke="none" font-family="serif" font-size="10" font-weight="700" letter-spacing="1.5">西单大悦城 · XIDAN JOY CITY</text>
+  <g transform="translate(402 158)" stroke="#33251f" stroke-linejoin="round" filter="url(#block-shadow)">
+    <path d="M8 143V39L32 20h115l25 19v104Z" fill="url(#facade)" stroke-width="2"/><path d="M32 20 58 3h65l24 17M8 143h164" fill="none" stroke-width="2.2"/>
+    <path d="M20 46h140M20 61h140M20 76h140M20 91h140M20 106h140" fill="none" opacity=".72"/><path d="M34 39v79M57 39v79M80 39v79M103 39v79M126 39v79M149 39v79" fill="none" opacity=".55"/>
+    <path d="M18 119h144v24H18z" fill="#d8bb83" stroke-width="1.2"/><path d="M33 119v24M55 119v24M77 119v24M103 119v24M125 119v24M147 119v24" opacity=".65"/>
+    <path d="M-12 143h202M-1 150h180" fill="none" stroke="#754235" stroke-width="2.2"/><path d="M4 150h164l14 10H-8Z" fill="#8b5940" fill-opacity=".25"/>
+    <path d="M-3 119h23v24H-3z" fill="#dbc18d"/><path d="M2 124h13v15H2z" fill="#584232" opacity=".32"/>
+    <circle cx="90" cy="31" r="8" fill="#d8b870"/><path d="M90 26v10M85 31h10" fill="none" stroke-width="1.2"/>
+    <text x="90" y="171" text-anchor="middle" fill="#30231d" stroke="none" font-family="serif" font-size="10" font-weight="700" letter-spacing="1.4">西单大悦城 · XIDAN JOY CITY</text>
+    <text x="90" y="184" text-anchor="middle" fill="#674434" stroke="none" font-family="serif" font-size="6.5" letter-spacing="1.5">NORTH PUBLIC ENTRANCE · ARCHIVE 01</text>
   </g>
-  <g transform="translate(660 278)" fill="none" stroke="#6f302a" stroke-width="1.7" opacity=".9">
-    <circle r="49"/><circle r="40" stroke-dasharray="2 4"/><path d="M-25 0h50M0-25v50M-18-18l36 36M18-18l-36 36"/>
-    <text y="4" text-anchor="middle" fill="#6f302a" stroke="none" font-family="serif" font-size="11" font-weight="700">西单</text>
+  <g fill="none" stroke="#40584b" stroke-width="1.4" opacity=".72">
+    <g transform="translate(78 90)"><path d="M0 45q29-52 61-12t60-13"/><circle cx="30" cy="23" r="9" fill="#71806a" fill-opacity=".22"/><circle cx="88" cy="24" r="8" fill="#71806a" fill-opacity=".22"/><path d="M30 32v23M88 32v22M13 55h99"/><text x="61" y="70" text-anchor="middle" fill="#405548" stroke="none" font-size="8">街心绿荫</text></g>
+    <g transform="translate(642 245)"><circle r="9" fill="#6d7b66" fill-opacity=".2"/><path d="M0 9v22M-12 31h24"/><circle cx="43" cy="2" r="8" fill="#6d7b66" fill-opacity=".2"/><path d="M43 10v21M31 31h24"/></g>
   </g>
-  <g fill="#442a20" font-family="serif" font-size="9" font-weight="700" letter-spacing="2">
-    <text x="382" y="116" transform="rotate(88 382 116)">西单北大街</text><text x="625" y="318">西长安街</text><text x="82" y="181">灵境胡同</text><text x="73" y="420">堂子胡同</text>
-  </g>
-  <g transform="translate(82 89)" fill="none" stroke="#486054" stroke-width="1.6" opacity=".7"><path d="M0 36q32-52 66-8t63-12"/><circle cx="35" cy="20" r="9"/><circle cx="91" cy="20" r="8"/><path d="M35 29v24M91 28v23M19 52h95"/><text x="64" y="68" text-anchor="middle" fill="#405548" stroke="none" font-size="8">街心绿荫</text></g>
-  <path d="M14 13h178M14 13v92M786 487H614M786 487v-92" fill="none" stroke="#6f3b2f" stroke-width="2" opacity=".55"/>
-  <text x="26" y="478" fill="#5b3828" font-family="serif" font-size="8" letter-spacing="2">BEIJING ARCHIVE · XIDAN / PAGE 01</text>
+  <g transform="translate(315 247)" fill="none" stroke="#5d3e30" stroke-width="1.2"><path d="M-18 23V3h36v20M-23 23h46M-12 8h24M-8 12v11M0 12v11M8 12v11"/><text x="0" y="35" text-anchor="middle" fill="#5d3e30" stroke="none" font-family="serif" font-size="7">地铁入口</text></g>
+  <g fill="none" stroke="#6a4433" stroke-width="1" opacity=".55"><path d="M196 306h36M214 288v36M203 295l22 22M225 295l-22 22"/><path d="M587 311h48M611 303v16" stroke-dasharray="2 3"/><path d="M255 165h43M276 157v16" stroke-dasharray="2 3"/></g>
+  <g fill="#443027" font-family="serif" font-size="9" font-weight="700" letter-spacing="1.7"><text x="382" y="116" transform="rotate(88 382 116)">西单北大街</text><text x="625" y="318">西长安街</text><text x="82" y="181">灵境胡同</text><text x="73" y="420">堂子胡同</text><text x="220" y="207" font-size="7" opacity=".68">商业街区 · BLOCK B-07</text></g>
+  <g transform="translate(681 273)" fill="none" stroke="#71332d" opacity=".72"><circle r="42" stroke-width="1.5"/><circle r="34" stroke-dasharray="2 4"/><path d="M-22 0h44M0-22v44M-15-15l30 30M15-15l-30 30"/><text y="4" text-anchor="middle" fill="#71332d" stroke="none" font-family="serif" font-size="10" font-weight="700">西单</text><text y="55" text-anchor="middle" fill="#5b3a2d" stroke="none" font-family="serif" font-size="6.5" letter-spacing="1.2">SURVEY SEAL · 39°54′N</text></g>
+  <g fill="none" stroke="#714535" opacity=".5"><path d="M14 13h178M14 13v92M786 487H614M786 487v-92" stroke-width="2"/><path d="M25 25h82M25 31h47M692 469h82M727 463h47" stroke-width=".7"/></g>
+  <g fill="#5a392b" font-family="serif"><text x="26" y="478" font-size="8" letter-spacing="2">BEIJING ARCHIVE · XIDAN / PAGE 01</text><text x="648" y="36" font-size="7" letter-spacing="1.4">FIELD SHEET 01 / NORTH-UP</text><text x="648" y="48" font-size="6" letter-spacing="1">39.907–39.912 N</text></g>
 </svg>

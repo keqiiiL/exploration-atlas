@@ -1,40 +1,48 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500">
   <defs>
-    <linearGradient id="paper" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#e9d8ad"/><stop offset=".5" stop-color="#cdb079"/><stop offset="1" stop-color="#8c7455"/></linearGradient>
-    <filter id="grain"><feTurbulence type="fractalNoise" baseFrequency=".62" numOctaves="4" seed="34"/><feColorMatrix values="0 0 0 0 .2 0 0 0 0 .16 0 0 0 0 .1 0 0 0 .17 0"/></filter>
-    <pattern id="court" width="18" height="18" patternUnits="userSpaceOnUse"><path d="M2 2h14v14H2zM5 5h8v8H5z" fill="none" stroke="#5c4733" stroke-opacity=".11" stroke-width=".7"/></pattern>
+    <linearGradient id="paper" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f0e0b9"/><stop offset=".54" stop-color="#d2b984"/><stop offset="1" stop-color="#9a805f"/></linearGradient>
+    <radialGradient id="light"><stop stop-color="#fff4d3" stop-opacity=".42"/><stop offset="1" stop-color="#654d39" stop-opacity=".12"/></radialGradient>
+    <linearGradient id="road"><stop stop-color="#f0dda9"/><stop offset="1" stop-color="#d4b57f"/></linearGradient>
+    <filter id="grain"><feTurbulence type="fractalNoise" baseFrequency=".43" numOctaves="2" seed="34"/><feColorMatrix values="0 0 0 0 .2 0 0 0 0 .16 0 0 0 0 .1 0 0 0 .085 0"/></filter>
+    <filter id="shadow" x="-20%" y="-20%" width="150%" height="160%"><feDropShadow dx="2" dy="4" stdDeviation="2.2" flood-color="#463226" flood-opacity=".28"/></filter>
+    <pattern id="tile" width="9" height="7" patternUnits="userSpaceOnUse"><path d="M0 1h9M1 1l3 3 4-3" fill="none" stroke="#564130" stroke-opacity=".22" stroke-width=".55"/></pattern>
+    <pattern id="brick" width="14" height="8" patternUnits="userSpaceOnUse"><path d="M0 0h14M0 8h14M7 0v4M3 4v4M11 4v4" fill="none" stroke="#5b4431" stroke-opacity=".18" stroke-width=".55"/></pattern>
   </defs>
-  <rect width="800" height="500" fill="url(#paper)"/><rect width="800" height="500" filter="url(#grain)" opacity=".46"/>
-  <path d="M535-10C524 104 540 218 532 332S541 436 523 515" fill="none" stroke="#3f2f26" stroke-width="31" opacity=".24"/>
-  <path d="M535-10C524 104 540 218 532 332S541 436 523 515" fill="none" stroke="#e0c58c" stroke-width="21" opacity=".92"/>
-  <path d="M7 105C193 101 343 112 531 90S691 62 814 74" fill="none" stroke="#4a3428" stroke-width="20" opacity=".2"/>
-  <path d="M7 105C193 101 343 112 531 90S691 62 814 74" fill="none" stroke="#dfc187" stroke-width="13" opacity=".9"/>
-  <path d="M10 410C171 416 348 401 530 407S696 420 813 399" fill="none" stroke="#4a3428" stroke-width="17" opacity=".18"/>
-  <path d="M10 410C171 416 348 401 530 407S696 420 813 399" fill="none" stroke="#dabb80" stroke-width="10" opacity=".84"/>
-  <g fill="url(#court)" stroke="#53402f" stroke-width="1.1" opacity=".72">
-    <path d="M26 135h118v92H26zM163 133h130v94H163zM312 128h174v98H312zM575 120h185v106H575z"/>
-    <path d="M28 249h125v123H28zM173 248h126v124H173zM318 247h166v127H318zM572 250h190v122H572z"/>
+  <rect width="800" height="500" fill="url(#paper)"/><rect width="800" height="500" fill="url(#light)"/><rect width="800" height="500" filter="url(#grain)" opacity=".5"/>
+  <g fill="none" stroke="#674c38" opacity=".1"><path d="M400 0c7 85-8 167 0 250s-6 168 1 250"/><path d="M0 251c132 4 260-7 400 0s266-7 400 0"/></g>
+  <g fill="none" stroke-linecap="round">
+    <path d="M535-10C524 104 540 218 532 332S541 436 523 515" stroke="#45352b" stroke-width="34" opacity=".26"/><path d="M535-10C524 104 540 218 532 332S541 436 523 515" stroke="url(#road)" stroke-width="23"/><path d="M535-10C524 104 540 218 532 332S541 436 523 515" stroke="#72563e" stroke-width="1" stroke-dasharray="3 9"/>
+    <path d="M7 105C193 101 343 112 531 90S691 62 814 74" stroke="#49362a" stroke-width="22" opacity=".22"/><path d="M7 105C193 101 343 112 531 90S691 62 814 74" stroke="#e6ce99" stroke-width="14"/>
+    <path d="M10 410C171 416 348 401 530 407S696 420 813 399" stroke="#49362a" stroke-width="19" opacity=".2"/><path d="M10 410C171 416 348 401 530 407S696 420 813 399" stroke="#dec28c" stroke-width="11"/>
+    <path d="M18 238C176 234 350 240 520 225S696 218 812 224" stroke="#5a4432" stroke-width="9" opacity=".2"/><path d="M18 238C176 234 350 240 520 225S696 218 812 224" stroke="#dbc18d" stroke-width="5"/>
   </g>
-  <g fill="none" stroke="#403126" stroke-width="1.7">
-    <path d="M48 158h77v52H48zM57 168h59v32H57zM86 168v32"/><path d="M188 157h86v53h-86zM198 168h66v31h-66zM231 168v31"/>
-    <path d="M343 151h111v58H343zM354 162h89v36H354zM383 162v36M414 162v36"/>
-    <path d="M597 147h137v64H597zM610 160h111v38H610zM647 160v38M684 160v38"/>
+  <g stroke="#53402f" stroke-width="1" filter="url(#shadow)">
+    <g transform="translate(25 132)"><path d="M0 8 12 0h110l10 8v91H0Z" fill="#c2a16f"/><path d="M8 15h116v27H8zM8 54h116v36H8z" fill="url(#tile)"/><path d="M18 45h35v8H18zM66 45h47v8H66z" fill="#ddc594"/></g>
+    <g transform="translate(163 130)"><path d="M0 8 13 0h121l10 9v93H0Z" fill="#c5a573"/><path d="M8 15h128v29H8zM8 57h128v36H8z" fill="url(#tile)"/><path d="M20 47h41v9H20zM74 47h50v9H74z" fill="#ddc594"/></g>
+    <g transform="translate(312 126)"><path d="M0 8 14 0h159l11 10v101H0Z" fill="#bea06f"/><path d="M8 16h168v31H8zM8 61h168v41H8z" fill="url(#tile)"/><path d="M21 50h53v10H21zM87 50h74v10H87z" fill="#dbc28f"/></g>
+    <g transform="translate(574 118)"><path d="M0 9 14 0h170l12 11v105H0Z" fill="#b99a6b"/><path d="M8 17h180v34H8zM8 65h180v42H8z" fill="url(#tile)"/><path d="M21 54h61v10H21zM96 54h77v10H96z" fill="#d8be8b"/></g>
+    <g transform="translate(27 251)"><path d="M0 8 12 0h117l9 10v120H0Z" fill="#bfa170"/><path d="M8 16h122v37H8zM8 69h122v52H8z" fill="url(#tile)"/><path d="M22 56h42v12H22zM76 56h39v12H76z" fill="#dcc491"/></g>
+    <g transform="translate(172 249)"><path d="M0 8 13 0h120l10 9v123H0Z" fill="#c3a371"/><path d="M8 16h127v39H8zM8 71h127v52H8z" fill="url(#tile)"/><path d="M20 58h47v12H20zM79 58h43v12H79z" fill="#dec795"/></g>
+    <g transform="translate(318 247)"><path d="M0 8 14 0h157l11 10v127H0Z" fill="#b99a69"/><path d="M8 16h166v41H8zM8 73h166v55H8z" fill="url(#tile)"/><path d="M22 60h57v12H22zM92 60h67v12H92z" fill="#dbc28d"/></g>
+    <g transform="translate(571 249)"><path d="M0 8 14 0h177l12 10v124H0Z" fill="#b69768"/><path d="M8 16h187v40H8zM8 72h187v53H8z" fill="url(#tile)"/><path d="M21 59h70v12H21zM104 59h75v12H104z" fill="#d8bf8b"/></g>
   </g>
-  <g transform="translate(548 350)" fill="none" stroke="#4d3428" stroke-width="1.8">
-    <path d="M-50 45V-18h99v63M-62 45H61M-44-18l18-16h53l22 16M-36-5h75M-29 7v28M0 7v28M29 7v28"/>
-    <path d="M-18 21h36" stroke="#6c2d29" stroke-width="3"/>
-    <text x="0" y="62" text-anchor="middle" fill="#3e2c23" stroke="none" font-family="serif" font-size="9" font-weight="700" letter-spacing="1">前炒面胡同 · 书页坐标</text>
+  <g transform="translate(489 328)" stroke="#382a22" stroke-linejoin="round" filter="url(#shadow)">
+    <path d="M0 72V9L18-7h96l18 16v63Z" fill="#c29f6a" stroke-width="1.8"/><path d="M18-7 38-22h57l19 15M-10 72h152" fill="none" stroke-width="2"/>
+    <path d="M11 18h110v18H11z" fill="url(#brick)"/><path d="M13 43h106v22H13z" fill="#dbc08a"/><path d="M29 43v22M53 43v22M78 43v22M103 43v22" opacity=".65"/>
+    <path d="M49 42h34v30H49z" fill="#6f342e" fill-opacity=".27"/><path d="M56 50h20v22" fill="none"/>
+    <text x="66" y="89" text-anchor="middle" fill="#352820" stroke="none" font-family="serif" font-size="9" font-weight="700" letter-spacing="1">前炒面胡同 · 书页坐标</text>
+    <text x="66" y="101" text-anchor="middle" fill="#674d38" stroke="none" font-family="serif" font-size="6.5" letter-spacing="1.2">COURTYARD READING ROOM</text>
   </g>
-  <g transform="translate(292 88)" fill="none" stroke="#3d2b22" stroke-width="1.8">
-    <path d="M-61 31V-25h122v56M-72 31H72M-50-25l24-18h53l34 18M-43-12h87M-34 0v22M0 0v22M34 0v22"/>
-    <circle cx="-21" cy="10" r="11"/><circle cx="21" cy="10" r="11"/><circle cx="-21" cy="10" r="3"/><circle cx="21" cy="10" r="3"/>
-    <text x="0" y="49" text-anchor="middle" fill="#3d2b22" stroke="none" font-family="serif" font-size="9" font-weight="700" letter-spacing="1">隆福寺二期东院</text>
+  <g transform="translate(225 38)" stroke="#362920" stroke-linejoin="round" filter="url(#shadow)">
+    <path d="M0 60V7L20-10h101l23 17v53Z" fill="#bea06e" stroke-width="1.8"/><path d="M20-10 43-26h57l21 16M-12 60h168" fill="none" stroke-width="2"/>
+    <path d="M12 16h120v18H12z" fill="url(#brick)"/><path d="M15 40h114v20H15z" fill="#d8bd88"/>
+    <circle cx="53" cy="50" r="9" fill="none" stroke-width="1.4"/><circle cx="53" cy="50" r="2.5"/><circle cx="91" cy="50" r="9" fill="none" stroke-width="1.4"/><circle cx="91" cy="50" r="2.5"/>
+    <path d="M66 40v20M78 40v20" opacity=".55"/><text x="72" y="78" text-anchor="middle" fill="#342820" stroke="none" font-family="serif" font-size="9" font-weight="700" letter-spacing="1">隆福寺二期东院</text>
+    <text x="72" y="90" text-anchor="middle" fill="#644a37" stroke="none" font-family="serif" font-size="6.5" letter-spacing="1.2">VINYL COURT · ARCHIVE 02B</text>
   </g>
-  <g transform="translate(690 302)" fill="none" stroke="#344a3e" stroke-width="1.4" opacity=".76"><path d="M-50 30q24-58 52-16t49-12"/><circle cx="-19" cy="10" r="8"/><circle cx="20" cy="11" r="7"/><path d="M-19 18v19M20 18v18M-39 37h79"/><text y="52" text-anchor="middle" fill="#344a3e" stroke="none" font-size="8">胡同槐影</text></g>
-  <g fill="#463226" font-family="serif" font-size="9" font-weight="700" letter-spacing="2">
-    <text x="542" y="245" transform="rotate(92 542 245)">东四南大街</text><text x="638" y="396">前炒面胡同</text><text x="620" y="66">隆福寺街</text>
-  </g>
-  <g transform="translate(688 96)" fill="none" stroke="#6c2d29" stroke-width="1.6"><circle r="39"/><circle r="31"/><circle r="5" fill="#6c2d29"/><path d="M-27-13A30 30 0 0 1 16-26M-28 10A30 30 0 0 0 19 24"/><text y="54" text-anchor="middle" fill="#6c2d29" stroke="none" font-family="serif" font-size="8">PAGES &amp; RECORDS</text></g>
-  <path d="M14 13h178M14 13v92M786 487H614M786 487v-92" fill="none" stroke="#4f5d43" stroke-width="2" opacity=".58"/>
-  <text x="26" y="478" fill="#49372a" font-family="serif" font-size="8" letter-spacing="2">BEIJING ARCHIVE · DONGSI / PAGE 02</text>
+  <g fill="none" stroke="#3f5749" stroke-width="1.3" opacity=".72"><g transform="translate(671 286)"><path d="M-55 35q25-59 55-15t54-13"/><circle cx="-21" cy="14" r="8" fill="#6d7d68" fill-opacity=".2"/><circle cx="21" cy="15" r="7" fill="#6d7d68" fill-opacity=".2"/><path d="M-21 22v20M21 22v19M-43 42h84"/><text y="57" text-anchor="middle" fill="#3f5749" stroke="none" font-size="8">胡同槐影</text></g><g transform="translate(93 335)"><circle r="8" fill="#6d7d68" fill-opacity=".2"/><path d="M0 8v20M-11 28h22"/><circle cx="39" cy="-2" r="7" fill="#6d7d68" fill-opacity=".2"/><path d="M39 5v23M29 28h20"/></g></g>
+  <g fill="#443126" font-family="serif" font-size="9" font-weight="700" letter-spacing="1.7"><text x="542" y="245" transform="rotate(92 542 245)">东四南大街</text><text x="638" y="396">前炒面胡同</text><text x="620" y="66">隆福寺街</text><text x="66" y="230" font-size="7" opacity=".7">胡同测绘区 · HUTONG GRID 04</text></g>
+  <g transform="translate(692 96)" fill="none" stroke="#71322c" opacity=".7"><circle r="34" stroke-width="1.4"/><circle r="27" stroke-dasharray="2 4"/><circle r="5" fill="#71322c"/><path d="M-23-12A27 27 0 0 1 15-23M-24 9A27 27 0 0 0 17 21"/><text y="48" text-anchor="middle" fill="#71322c" stroke="none" font-family="serif" font-size="7" letter-spacing="1">PAGES &amp; RECORDS</text></g>
+  <g fill="none" stroke="#4f5d43" opacity=".5"><path d="M14 13h178M14 13v92M786 487H614M786 487v-92" stroke-width="2"/><path d="M27 26h72M27 32h43M701 468h72" stroke-width=".7"/></g>
+  <g fill="#49372a" font-family="serif"><text x="26" y="478" font-size="8" letter-spacing="2">BEIJING ARCHIVE · DONGSI / PAGE 02</text><text x="650" y="36" font-size="7" letter-spacing="1.3">FIELD SHEET 02 / NORTH-UP</text></g>
 </svg>

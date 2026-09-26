@@ -1,33 +1,46 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500">
   <defs>
-    <linearGradient id="paper" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#e5d2a6"/><stop offset=".56" stop-color="#bea273"/><stop offset="1" stop-color="#796f59"/></linearGradient>
-    <linearGradient id="water" x1="0" y1="0" x2="1" y2=".7"><stop stop-color="#6d9690" stop-opacity=".72"/><stop offset="1" stop-color="#355f63" stop-opacity=".58"/></linearGradient>
-    <filter id="grain"><feTurbulence type="fractalNoise" baseFrequency=".68" numOctaves="3" seed="55"/><feColorMatrix values="0 0 0 0 .16 0 0 0 0 .18 0 0 0 0 .14 0 0 0 .16 0"/></filter>
-    <pattern id="waves" width="34" height="16" patternUnits="userSpaceOnUse"><path d="M0 8q8-7 17 0t17 0" fill="none" stroke="#e7d7aa" stroke-opacity=".25" stroke-width="1"/></pattern>
+    <linearGradient id="paper" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#eee0b8"/><stop offset=".56" stop-color="#cdb787"/><stop offset="1" stop-color="#827864"/></linearGradient>
+    <linearGradient id="water" x1="0" y1="0" x2="1" y2=".75"><stop stop-color="#88aaa0"/><stop offset=".55" stop-color="#587f7d"/><stop offset="1" stop-color="#345e64"/></linearGradient>
+    <linearGradient id="shore" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#ead39a"/><stop offset="1" stop-color="#af875d"/></linearGradient>
+    <filter id="grain"><feTurbulence type="fractalNoise" baseFrequency=".42" numOctaves="2" seed="55"/><feColorMatrix values="0 0 0 0 .16 0 0 0 0 .18 0 0 0 0 .14 0 0 0 .08 0"/></filter>
+    <filter id="shadow" x="-25%" y="-25%" width="160%" height="170%"><feDropShadow dx="2" dy="4" stdDeviation="2.4" flood-color="#304346" flood-opacity=".33"/></filter>
+    <pattern id="waves" width="42" height="20" patternUnits="userSpaceOnUse"><path d="M0 10q10-8 21 0t21 0M8 17q7-5 14 0" fill="none" stroke="#f1e2ba" stroke-opacity=".28" stroke-width="1"/></pattern>
+    <pattern id="tile" width="9" height="7" patternUnits="userSpaceOnUse"><path d="M0 1h9M1 1l3 3 4-3" fill="none" stroke="#544334" stroke-opacity=".25" stroke-width=".55"/></pattern>
   </defs>
-  <rect width="800" height="500" fill="url(#paper)"/><rect width="800" height="500" filter="url(#grain)" opacity=".42"/>
-  <path d="M-35 210C102 168 200 155 314 191c62 20 106 32 165 11 78-28 126-93 224-96 52-2 88 8 132 20V536H-35Z" fill="url(#water)" stroke="#304f50" stroke-width="2"/>
-  <path d="M-35 210C102 168 200 155 314 191c62 20 106 32 165 11 78-28 126-93 224-96 52-2 88 8 132 20V536H-35Z" fill="url(#waves)"/>
-  <path d="M-22 181C98 142 212 132 320 168c70 23 108 25 153 9 84-30 127-92 225-98 59-4 98 10 137 22" fill="none" stroke="#3c4c3e" stroke-width="12" opacity=".32"/>
-  <path d="M-22 181C98 142 212 132 320 168c70 23 108 25 153 9 84-30 127-92 225-98 59-4 98 10 137 22" fill="none" stroke="#d4bb7f" stroke-width="7"/>
-  <path d="M778 18C728 67 688 103 637 129S540 176 471 202" fill="none" stroke="#4b3629" stroke-width="18" opacity=".22"/>
-  <path d="M778 18C728 67 688 103 637 129S540 176 471 202" fill="none" stroke="#dfc48a" stroke-width="11"/>
-  <g fill="none" stroke="#514030" stroke-width="1.3" opacity=".8">
-    <path d="M52 38h110v77H52zM180 29h104v92H180zM306 35h116v86H306zM446 28h106v83H446z"/>
-    <path d="M67 51h80v51H67zM194 42h75v64H194zM320 49h87v58H320zM460 42h78v55H460z"/>
-    <path d="M85 65h45M217 57h30M343 63h42M481 57h36"/>
+  <rect width="800" height="500" fill="url(#paper)"/>
+  <path d="M-35 210C102 168 200 155 314 191c62 20 106 32 165 11 78-28 126-93 224-96 52-2 88 8 132 20V536H-35Z" fill="url(#water)" stroke="#294f53" stroke-width="2.4"/>
+  <path d="M-35 210C102 168 200 155 314 191c62 20 106 32 165 11 78-28 126-93 224-96 52-2 88 8 132 20V536H-35Z" fill="url(#waves)" opacity=".9"/>
+  <path d="M-24 184C99 145 208 135 319 170c68 22 108 26 155 9 83-30 128-91 224-98 59-4 97 9 137 22" fill="none" stroke="#405044" stroke-width="17" opacity=".3"/>
+  <path d="M-24 184C99 145 208 135 319 170c68 22 108 26 155 9 83-30 128-91 224-98 59-4 97 9 137 22" fill="none" stroke="url(#shore)" stroke-width="10"/>
+  <path d="M-22 174C95 138 209 127 323 163c70 22 106 23 148 8 85-31 128-93 226-99 59-4 98 10 137 22" fill="none" stroke="#70523b" stroke-width="1.2" stroke-dasharray="3 6" opacity=".78"/>
+  <path d="M778 18C728 67 688 103 637 129S540 176 471 202" fill="none" stroke="#4b3629" stroke-width="20" opacity=".23"/><path d="M778 18C728 67 688 103 637 129S540 176 471 202" fill="none" stroke="#e7ce99" stroke-width="12"/><path d="M778 18C728 67 688 103 637 129S540 176 471 202" fill="none" stroke="#74553d" stroke-width=".9" stroke-dasharray="3 8"/>
+  <rect width="800" height="500" filter="url(#grain)" opacity=".5"/>
+  <g stroke="#514030" stroke-width="1" filter="url(#shadow)">
+    <g transform="translate(49 35)"><path d="M0 8 12 0h103l10 9v80H0Z" fill="#baa171"/><path d="M8 15h109v27H8zM8 54h109v27H8z" fill="url(#tile)"/><path d="M20 45h33v8H20zM65 45h40v8H65z" fill="#dbc795"/></g>
+    <g transform="translate(178 27)"><path d="M0 8 12 0h98l10 9v98H0Z" fill="#bda475"/><path d="M8 15h104v32H8zM8 60h104v38H8z" fill="url(#tile)"/><path d="M19 50h35v9H19zM65 50h35v9H65z" fill="#dfcb99"/></g>
+    <g transform="translate(304 33)"><path d="M0 8 13 0h109l10 9v91H0Z" fill="#b69d70"/><path d="M8 15h116v29H8zM8 57h116v34H8z" fill="url(#tile)"/><path d="M20 47h43v9H20zM75 47h37v9H75z" fill="#dac592"/></g>
+    <g transform="translate(443 26)"><path d="M0 8 12 0h101l10 9v87H0Z" fill="#b39a6e"/><path d="M8 15h107v28H8zM8 56h107v29H8z" fill="url(#tile)"/><path d="M19 46h37v9H19zM68 46h35v9H68z" fill="#d7c18f"/></g>
   </g>
-  <g transform="translate(410 242)" fill="none" stroke="#382b23" stroke-width="2.1">
-    <path d="M-48 13q48-42 96 0M-55 16h110M-42 15V2M42 15V2M-26 9V-5M26 9V-5"/>
-    <path d="M-63 20h126" stroke="#704137" stroke-width="3"/><path d="M-52 24q52 14 104 0" stroke="#d7ba7b"/>
-    <circle cx="-46" cy="18" r="3" fill="#764137"/><circle cx="46" cy="18" r="3" fill="#764137"/>
-    <text x="0" y="45" text-anchor="middle" fill="#342820" stroke="none" font-family="serif" font-size="10" font-weight="700" letter-spacing="2">银锭桥</text>
+  <g fill="none" stroke="#3e5e58" stroke-width="1.2" opacity=".72">
+    <g transform="translate(88 144)"><circle r="8" fill="#6f8c78" fill-opacity=".2"/><path d="M0 8v21M-12 29h24"/><circle cx="43" cy="-5" r="7" fill="#6f8c78" fill-opacity=".2"/><path d="M43 2v27M33 29h20"/></g>
+    <g transform="translate(548 155)"><circle r="8" fill="#6f8c78" fill-opacity=".2"/><path d="M0 8v19M-11 27h22"/><circle cx="38" cy="-3" r="7" fill="#6f8c78" fill-opacity=".2"/><path d="M38 4v23M28 27h20"/></g>
   </g>
-  <g transform="translate(651 123)" fill="none" stroke="#44362a" stroke-width="1.5"><path d="M-82 17q37-41 82-13t81-17"/><path d="M-71 14 0-5l68-8" stroke-dasharray="3 4"/><text y="36" text-anchor="middle" fill="#44362a" stroke="none" font-family="serif" font-size="9" font-weight="700" letter-spacing="1.5">烟袋斜街</text></g>
-  <g transform="translate(196 334)" fill="none" stroke="#e0cca0" stroke-width="1.1" opacity=".65"><path d="M-92 0q23-13 46 0t46 0 46 0 46 0M-82 25q21-12 42 0t42 0 42 0 42 0M-105 52q26-14 52 0t52 0 52 0 52 0"/></g>
-  <g fill="#49382b" font-family="serif" font-size="9" font-weight="700" letter-spacing="2"><text x="505" y="187" transform="rotate(-24 505 187)">银锭桥胡同</text><text x="82" y="145">后海北沿</text></g>
-  <text x="151" y="282" fill="#e5d4aa" font-family="serif" font-size="12" font-weight="700" letter-spacing="5" opacity=".72">后 海 · HOUHAI</text><text x="563" y="315" fill="#e5d4aa" font-family="serif" font-size="12" font-weight="700" letter-spacing="5" opacity=".72">前 海</text>
-  <g transform="translate(714 365)" fill="none" stroke="#d5bf86" stroke-width="1.5" opacity=".82"><circle r="48"/><circle r="38"/><path d="M0-32 8-7 32 0 8 7 0 32-8 7-32 0-8-7z"/><path d="M0-24 4 0 0 24-4 0z" fill="#6b302c"/><text y="-55" text-anchor="middle" fill="#3f3228" stroke="none" font-size="9" font-weight="700">N</text></g>
-  <path d="M14 13h178M14 13v92M786 487H614M786 487v-92" fill="none" stroke="#315f61" stroke-width="2" opacity=".6"/>
-  <text x="26" y="478" fill="#e1c995" font-family="serif" font-size="8" letter-spacing="2">BEIJING ARCHIVE · SHICHAHAI / PAGE 03</text>
+  <g transform="translate(410 242)" stroke="#312720" stroke-linejoin="round" filter="url(#shadow)">
+    <path d="M-61 17q61-52 122 0" fill="#d2b77c" stroke-width="2.3"/><path d="M-68 20h136" fill="none" stroke="#6f3c33" stroke-width="3.3"/>
+    <path d="M-53 17V4M53 17V4M-34 10V-7M34 10V-7" fill="none" stroke-width="1.8"/>
+    <path d="M-45 7q45-31 90 0M-31 1q31-22 62 0" fill="none" stroke-width="1.2"/>
+    <path d="M-58 25q58 17 116 0" fill="none" stroke="#e8d29e" stroke-width="2"/>
+    <path d="M-70 29h140M-54 35h108" fill="none" stroke="#6d4937" stroke-width="1.3"/>
+    <circle cx="-53" cy="20" r="3" fill="#743c33"/><circle cx="53" cy="20" r="3" fill="#743c33"/>
+    <text x="0" y="51" text-anchor="middle" fill="#332820" stroke="none" font-family="serif" font-size="10" font-weight="700" letter-spacing="2">银锭桥</text>
+    <text x="0" y="64" text-anchor="middle" fill="#d9c793" stroke="none" font-family="serif" font-size="6.5" letter-spacing="1.5">YINDING BRIDGE · FINAL FIELD POINT</text>
+  </g>
+  <g transform="translate(650 121)" fill="none" stroke="#44362a" stroke-width="1.4"><path d="M-82 18q37-41 82-13t81-17"/><path d="M-71 14 0-5l68-8" stroke-dasharray="3 4"/><path d="M-58 7v13M-20-3v14M24-9v13M57-14v12" opacity=".6"/><text y="38" text-anchor="middle" fill="#44362a" stroke="none" font-family="serif" font-size="9" font-weight="700" letter-spacing="1.5">烟袋斜街</text></g>
+  <g fill="none" stroke="#eadbad" stroke-width="1" opacity=".68"><path d="M78 292q26-15 52 0t52 0 52 0M105 326q23-13 46 0t46 0 46 0M44 371q31-17 62 0t62 0 62 0"/><path d="M511 285q22-12 44 0t44 0 44 0M545 344q25-14 50 0t50 0"/><ellipse cx="310" cy="407" rx="54" ry="14"/><ellipse cx="310" cy="407" rx="33" ry="8"/><ellipse cx="655" cy="430" rx="45" ry="12"/></g>
+  <g fill="none" stroke="#dcc995" opacity=".72"><path d="M265 329q18-15 36 0l-5 20h-26Z"/><path d="M272 349h22M283 329v-14"/><path d="M610 282q15-13 30 0l-4 17h-22Z"/><path d="M616 299h18M625 282v-12"/></g>
+  <g fill="#49382b" font-family="serif" font-size="9" font-weight="700" letter-spacing="1.8"><text x="505" y="187" transform="rotate(-24 505 187)">银锭桥胡同</text><text x="82" y="145">后海北沿</text><text x="151" y="282" fill="#f0dfb3" font-size="12" letter-spacing="5">后 海 · HOUHAI</text><text x="563" y="315" fill="#f0dfb3" font-size="12" letter-spacing="5">前 海</text></g>
+  <g transform="translate(716 365)" fill="none" stroke="#e0cc95" opacity=".78"><circle r="43" stroke-width="1.4"/><circle r="34" stroke-dasharray="2 4"/><path d="M0-29 7-6 29 0 7 6 0 29-7 6-29 0-7-6z"/><path d="M0-22 4 0 0 22-4 0z" fill="#6d302c"/><text y="-51" text-anchor="middle" fill="#342b25" stroke="none" font-size="8" font-weight="700">N</text></g>
+  <g fill="none" stroke="#315f61" opacity=".55"><path d="M14 13h178M14 13v92M786 487H614M786 487v-92" stroke-width="2"/><path d="M27 26h76M27 32h44M699 468h72" stroke-width=".7"/></g>
+  <g fill="#ead5a2" font-family="serif"><text x="26" y="478" font-size="8" letter-spacing="2">BEIJING ARCHIVE · SHICHAHAI / PAGE 03</text><text x="638" y="35" fill="#4b3a2e" font-size="7" letter-spacing="1.3">WATER SURVEY · NORTH-UP</text></g>
 </svg>

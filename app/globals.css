@@ -1275,9 +1275,9 @@ h1, h2, h3, blockquote, .display-type {
 @keyframes cinematicRuneFinale { 0%, 100% { transform: translate(-50%, -50%) scale(.72) rotate(-10deg); opacity: .2; } 50% { transform: translate(-50%, -50%) scale(.86) rotate(7deg); opacity: .4; } }
 @keyframes cinematicOwlFrames { 0%, 32.9% { background-position: 0 50%; } 33%, 65.9% { background-position: 50% 50%; } 66%, 100% { background-position: 100% 50%; } }
 @keyframes cinematicCourierPass { 0% { opacity: 0; transform: translate3d(0, -5vh, 0) scale(.38) rotate(-9deg); filter: blur(3px); } 8% { opacity: .5; } 38% { opacity: .94; transform: translate3d(54vw, 10vh, 0) scale(.78) rotate(1deg); filter: blur(.2px); } 62% { opacity: .98; transform: translate3d(79vw, 18vh, 0) scale(1.18) rotate(5deg); filter: blur(0); } 86% { opacity: .5; } 100% { opacity: 0; transform: translate3d(142vw, 5vh, 0) scale(.82) rotate(-2deg); filter: blur(2px); } }
-@keyframes mapGeneratedFogA { 0% { opacity: .02; transform: translate3d(-7%, 5%, 0) scale(1); } 45% { opacity: .13; } 100% { opacity: .05; transform: translate3d(9%, -5%, 0) scale(1.13); } }
-@keyframes mapGeneratedFogB { 0% { opacity: .03; transform: translate3d(6%, -3%, 0) scaleX(-1) scale(1.02); } 58% { opacity: .11; } 100% { opacity: .04; transform: translate3d(-8%, 6%, 0) scaleX(-1) scale(1.15); } }
-@keyframes mapCandleRoam { from { transform: translate3d(-3%, -2%, 0) scale(1); opacity: .16; } to { transform: translate3d(5%, 4%, 0) scale(1.08); opacity: .3; } }
+@keyframes mapGeneratedFogA { 0% { opacity: .01; transform: translate3d(-7%, 5%, 0) scale(1); } 45% { opacity: .055; } 100% { opacity: .02; transform: translate3d(9%, -5%, 0) scale(1.13); } }
+@keyframes mapGeneratedFogB { 0% { opacity: .012; transform: translate3d(6%, -3%, 0) scaleX(-1) scale(1.02); } 58% { opacity: .045; } 100% { opacity: .018; transform: translate3d(-8%, 6%, 0) scaleX(-1) scale(1.15); } }
+@keyframes mapCandleRoam { from { transform: translate3d(-3%, -2%, 0) scale(1); opacity: .08; } to { transform: translate3d(5%, 4%, 0) scale(1.08); opacity: .15; } }
 @keyframes cinematicMapOwlNear { 0%, 6% { opacity: 0; transform: translate3d(0, 2vh, 0) scale(.56) rotate(-7deg); filter: blur(1.5px); } 12% { opacity: .78; } 47% { opacity: .92; transform: translate3d(56vw, -8vh, 0) scale(.88) rotate(1deg); filter: blur(0); } 82% { opacity: .64; } 91%, 100% { opacity: 0; transform: translate3d(132vw, 4vh, 0) scale(.68) rotate(6deg); filter: blur(1px); } }
 @keyframes cinematicMapOwlFar { 0%, 10% { opacity: 0; transform: translate3d(0, 0, 0) scale(.72); } 16% { opacity: .42; } 48% { transform: translate3d(-54vw, 4vh, 0) scale(.8); } 84% { opacity: .34; } 92%, 100% { opacity: 0; transform: translate3d(-125vw, -4vh, 0) scale(.62); } }
 @keyframes generatedArrivalSeal { 0% { opacity: 0; transform: translate(-50%, -50%) scale(.18) rotate(-26deg); filter: brightness(.6) blur(3px); } 44% { opacity: .88; } 76% { opacity: .74; transform: translate(-50%, -50%) scale(1.12) rotate(3deg); filter: brightness(1.2) blur(0); } 100% { opacity: 0; transform: translate(-50%, -50%) scale(1.42) rotate(9deg); filter: brightness(1.4) blur(1px); } }
@@ -1590,11 +1590,32 @@ h1, h2, h3, blockquote, .display-type {
   border: 1px solid #3b281b47;
   box-shadow: inset 0 0 0 4px #d6b77d24, inset 0 0 95px #2f1a1052;
 }
-.illustrated-base-map { filter: saturate(.9) contrast(1.03) brightness(.97); }
-.route-path { stroke: #4a1e1d; stroke-width: 1.8; opacity: .76; }
-.route-path-aura { stroke: #f0c86f; stroke-width: 8.5; opacity: .16; }
-.goal-tag rect { fill: #6f2726eb; stroke: #f0d493; }
-.you-heading-arrow path { fill: #1f4d50; }
+.illustrated-base-map { filter: saturate(.92) contrast(1.08) brightness(1.035); }
+.route-path {
+  stroke: #571f20;
+  stroke-width: 2.35;
+  stroke-dasharray: 4 7;
+  opacity: .94;
+  filter: drop-shadow(0 1px 0 #f4d797) drop-shadow(0 0 2px #2a140b8c);
+}
+.route-path-aura {
+  stroke: #f2cb72;
+  stroke-width: 9;
+  opacity: .2;
+  filter: blur(1.25px) drop-shadow(0 0 4px #f2cc77);
+}
+.goal-point .point-glow { fill: #d19a43; opacity: .38; }
+.goal-point .point-ring { fill: #782d2b; stroke: #f3d894; stroke-width: 2.1; filter: drop-shadow(0 0 5px #f2c96f) drop-shadow(0 2px 2px #29130c); }
+.goal-point .point-core { fill: #f6dda0; stroke: #5f211f; stroke-width: .8; }
+.goal-tag rect { fill: #6f2726f5; stroke: #f3d997; stroke-width: 1.15; filter: drop-shadow(0 2px 2px #2a130da8); }
+.goal-tag text { fill: #fff0bd; font-size: 6.6px; }
+.you-marker .point-glow { fill: #1d6668; opacity: .4; }
+.you-marker .point-ring { fill: #e9d49b; stroke: #123f43; stroke-width: 2.2; filter: drop-shadow(0 0 5px #d9f0d2) drop-shadow(0 2px 2px #102326a8); }
+.you-marker .point-core { fill: #174d51; }
+.you-heading-arrow path { fill: #174e52; stroke-width: 2; filter: drop-shadow(0 1px 1px #f2dca4) drop-shadow(0 2px 3px #0a2426b8); }
+.theme-light-blooms { opacity: .56; }
+.map-magic-overlay .theme-particles { opacity: .28; }
+.map-magic-overlay .ink-constellation { opacity: .23; }
 
 .coin-balance {
   position: relative;
